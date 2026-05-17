@@ -22,21 +22,137 @@
             padding: 0;
         }
 
-        /* Запрещаем скролл, пока конверт не открыт */
         body {
             font-family: 'Montserrat', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-color);
             line-height: 1.6;
             overflow-x: hidden;
-            overflow-y: hidden; 
+            overflow-y: hidden; /* Блокируем скролл до открытия */
         }
 
-        /* Когда конверт открыт, разрешаем скролл */
         body.envelope-opened {
             overflow-y: auto;
         }
 
+        /* --- ПОЛНОЭКРАННЫЙ СТИЛЬНЫЙ КОНВЕРТ --- */
+        .envelope-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #f0eae1; /* Мягкий фоновый цвет за конвертом */
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1), transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .envelope-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 550px; /* Идеальная пропорция для писем */
+            height: 100vh;     /* Конверт растягивается на всю высоту */
+            background: #faf6f0; /* Текстурный цвет бумаги */
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.12);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Имитация объемных складок бумажного конверта */
+        .envelope-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: 
+                /* Нижний клапан */
+                linear-gradient(35deg, #f3ede2 49.5%, #dfd5c3 50%, transparent 51.5%),
+                /* Верхний клапан */
+                linear-gradient(-35deg, #f3ede2 49.5%, #dfd5c3 50%, transparent 51.5%);
+            background-size: 100% 100%;
+            opacity: 0.7;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Дополнительные линии сгиба для реалистичности */
+        .envelope-wrapper::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0; height: 60%;
+            background: linear-gradient(to top, rgba(223, 213, 195, 0.3), transparent);
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Сургучная печать (кнопка) */
+        .wax-seal {
+            width: 110px;
+            height: 110px;
+            background-color: #c5b49f; /* Элегантный матовый сургуч */
+            border-radius: 50%;
+            position: relative;
+            cursor: pointer;
+            box-shadow: inset 0 3px 6px rgba(255,255,255,0.4), 
+                        0 8px 25px rgba(125, 107, 88, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 10; /* Печать должна быть строго над бумагой */
+        }
+
+        .wax-seal::before {
+            content: '';
+            position: absolute;
+            top: -5px; left: -5px; right: -5px; bottom: -5px;
+            border-radius: 50%;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+        }
+
+        .wax-seal-design {
+            font-size: 2.8rem;
+            color: #fdfbf7;
+            user-select: none;
+            opacity: 0.95;
+            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+        }
+
+        .wax-seal:hover {
+            transform: scale(1.08);
+        }
+
+        .open-text {
+            margin-top: 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 4px;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            font-weight: 400;
+            z-index: 10;
+            animation: pulseText 2.5s infinite;
+        }
+
+        @keyframes pulseText {
+            0% { opacity: 0.4; transform: scale(0.98); }
+            50% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0.4; transform: scale(0.98); }
+        }
+
+        /* Анимация исчезновения конверта при клике */
+        .envelope-overlay.hidden {
+            opacity: 0;
+            transform: scale(1.08);
+            pointer-events: none;
+        }
+
+        /* --- ОСНОВНОЙ КОНТЕНТ САЙТА --- */
         .container {
             max-width: 480px;
             margin: 0 auto;
@@ -45,116 +161,11 @@
             box-shadow: 0 0 20px rgba(0,0,0,0.05);
             position: relative;
             padding-bottom: 50px;
-            display: none; /* Прячем основной контент до открытия конверта */
+            display: none; 
         }
 
         body.envelope-opened .container {
             display: block;
-        }
-
-        /* --- СТИЛИ ДЛЯ ИНТЕРАКТИВНОГО КОНВЕРТА --- */
-        .envelope-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: #f4f0eb; /* Нежный кремовый фон */
-            z-index: 2000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-
-        /* Элементы самого конверта (визуальные линии стыка) */
-        .envelope-wrapper {
-            position: relative;
-            width: 320px;
-            height: 420px;
-            background: #fdfbf7;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid rgba(0,0,0,0.03);
-        }
-
-        /* Рисуем треугольные складки конверта сзади через псевдоэлементы */
-        .envelope-wrapper::before {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; right: 0; height: 50%;
-            background: linear-gradient(30deg, #fcfaf5 48%, #eae5dc 50%, transparent 52%),
-                        linear-gradient(-30deg, #fcfaf5 48%, #eae5dc 50%, transparent 52%);
-            border-radius: 0 0 8px 8px;
-            opacity: 0.4;
-            pointer-events: none;
-        }
-
-        /* Сургучная печать */
-        .wax-seal {
-            width: 90px;
-            height: 90px;
-            background-color: #cfbda8; /* Красивый золотисто-бежевый сургуч */
-            border-radius: 50%;
-            position: relative;
-            cursor: pointer;
-            box-shadow: inset 0 2px 5px rgba(255,255,255,0.4), 
-                        0 4px 10px rgba(125, 107, 88, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.3s ease;
-            z-index: 10;
-        }
-
-        /* Делаем неровные края сургуча как на фото */
-        .wax-seal::before {
-            content: '';
-            position: absolute;
-            top: -4px; left: -4px; right: -4px; bottom: -4px;
-            border-radius: 48%;
-            border: 3px dashed #c0ae98;
-            opacity: 0.5;
-        }
-
-        /* Рисунок цветка внутри печати */
-        .wax-seal-design {
-            font-size: 2.2rem;
-            color: #f7f5f2;
-            user-select: none;
-            opacity: 0.9;
-        }
-
-        .wax-seal:hover {
-            transform: scale(1.06);
-        }
-
-        .open-text {
-            margin-top: 25px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.85rem;
-            letter-spacing: 2px;
-            color: var(--accent-color);
-            text-transform: uppercase;
-            animation: pulseText 2s infinite;
-        }
-
-        @keyframes pulseText {
-            0% { opacity: 0.5; }
-            50% { opacity: 1; }
-            100% { opacity: 0.5; }
-        }
-
-        /* Анимация исчезновения конверта */
-        .envelope-overlay.hidden {
-            opacity: 0;
-            transform: scale(1.05);
-            pointer-events: none;
         }
 
         /* --- КНОПКА МУЗЫКИ --- */
@@ -166,11 +177,11 @@
             width: 45px;
             height: 45px;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.9);
             border: 1px solid var(--accent-color);
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             cursor: pointer;
-            display: none; /* Появится только после открытия конверта */
+            display: none; 
             align-items: center;
             justify-content: center;
             font-size: 1.2rem;
@@ -189,7 +200,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* --- ОСТАЛЬНЫЕ СТИЛИ СТРАНИЦЫ --- */
         .script-title {
             font-family: 'Caveat', cursive;
             font-size: 3.5rem;
@@ -467,7 +477,7 @@
         </div>
     </div>
 
-    <audio id="bg-music" src="путь_к_твоему_треку.mp3" loop></audio>
+    <audio id="bg-music" src="музыка.mp3" loop></audio>
 
     <button class="music-control" id="music-btn">🔈</button>
 
@@ -614,21 +624,16 @@
         const music = document.getElementById('bg-music');
         const musicBtn = document.getElementById('music-btn');
 
-        // Клик по сургучной печати
         startBtn.addEventListener('click', () => {
-            // Добавляем класс, разрешающий скролл и показывающий контент
             document.body.classList.add('envelope-opened');
-            // Плавно прячем конверт
             envelope.classList.add('hidden');
             
-            // Включаем музыку (так как пользователь кликнул, браузер разрешит звук)
             music.play().then(() => {
                 musicBtn.classList.add('playing');
                 musicBtn.innerText = '🔊';
-            }).catch(err => console.log("Ошибка автозапуска аудио:", err));
+            }).catch(err => console.log("Браузер заблокировал музыку:", err));
         });
 
-        // Ручное переключение музыки по кнопке в углу
         musicBtn.addEventListener('click', () => {
             if (music.paused) {
                 music.play().then(() => {
