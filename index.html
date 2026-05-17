@@ -699,8 +699,8 @@
 
 
         // --- ОТПРАВКА В TELEGRAM ---
-        const TELEGRAM_BOT_TOKEN = 'ОСТАВЬ_ИЛИ_ВСТАВЬ_ТОКЕН'; 
-        const TELEGRAM_CHAT_ID = 'ОСТАВЬ_ИЛИ_ВСТАВЬ_ID';
+        const TELEGRAM_BOT_TOKEN = '8556775064:AAEzpPRZOiWtKlgTauNIEkYQ6E9vYDFKv6Q'; 
+        const TELEGRAM_CHAT_ID = '1391803164';
 
         document.getElementById('rsvp-form').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -714,7 +714,7 @@
             message += `📅 *Присутствие:* ${attendance}\n`;
             message += `🎵 *Трек на танцпол:* ${musicInput}`;
 
-            if(TELEGRAM_BOT_TOKEN === 'ОСТАВЬ_ИЛИ_ВСТАВЬ_ТОКЕН') {
+            if(TELEGRAM_BOT_TOKEN === '8556775064:AAEzpPRZOiWtKlgTauNIEkYQ6E9vYDFKv6Q') {
                 alert('Данные приняты! Музыкальное пожелание зафиксировано:\n\n' + message + '\n\n(Для отправки в реальный Telegram — пропиши Token и Chat ID)');
                 return;
             }
