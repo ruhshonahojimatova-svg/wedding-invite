@@ -54,7 +54,7 @@
             position: relative;
             width: 100%;
             max-width: 550px; /* Идеальная пропорция для писем */
-            height: 100vh;     /* Конверт растягивается на всю высоту */
+            height: 100vh;     /* Flex растягивает на всю высоту */
             background: #faf6f0; /* Текстурный цвет бумаги */
             box-shadow: 0 0 50px rgba(0, 0, 0, 0.12);
             display: flex;
@@ -104,7 +104,7 @@
             align-items: center;
             justify-content: center;
             transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 10; /* Печать должна быть строго над бумагой */
+            z-index: 10; /* Печать строго над бумагой */
         }
 
         .wax-seal::before {
@@ -477,7 +477,7 @@
         </div>
     </div>
 
-    <audio id="bg-music" src="путь_к_твоему_треку.mp3" loop></audio>
+    <audio id="bg-music" src="music.mp3" loop></audio>
 
     <button class="music-control" id="music-btn">🔈</button>
 
@@ -713,11 +713,6 @@
             message += `👤 *Имя:* ${name}\n`;
             message += `📅 *Присутствие:* ${attendance}\n`;
             message += `🎵 *Трек на танцпол:* ${musicInput}`;
-
-            if(TELEGRAM_BOT_TOKEN === '8556775064:AAEzpPRZOiWtKlgTauNIEkYQ6E9vYDFKv6Q') {
-                alert('Данные приняты! Музыкальное пожелание зафиксировано:\n\n' + message + '\n\n(Для отправки в реальный Telegram — пропиши Token и Chat ID)');
-                return;
-            }
 
             const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
 
