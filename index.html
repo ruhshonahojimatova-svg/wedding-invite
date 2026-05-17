@@ -40,6 +40,36 @@
             padding-bottom: 50px;
         }
 
+        /* --- КНОПКА МУЗЫКИ В КРАЮ ЭКРАНА --- */
+        .music-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid var(--accent-color);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+        
+        /* Вращение кнопки во время проигрывания */
+        .music-control.playing {
+            animation: rotateMusic 4s linear infinite;
+        }
+
+        @keyframes rotateMusic {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
         .script-title {
             font-family: 'Caveat', cursive;
             font-size: 3.5rem;
@@ -62,7 +92,6 @@
             will-change: opacity, transform;
         }
 
-        /* Класс, который будет добавляться скриптом при скролле */
         .fade-in-section.is-visible {
             opacity: 1;
             transform: translateY(0);
@@ -261,7 +290,7 @@
             background: var(--accent-color);
         }
         .btn-2gis {
-            background: #2ea300; /* Фирменный цвет 2ГИС */
+            background: #2ea300;
         }
         .btn-2gis:hover {
             background: #258200;
@@ -316,6 +345,10 @@
     </style>
 </head>
 <body>
+
+    <audio id="bg-music" src="путь_к_твоему_треку.mp3" loop></audio>
+
+    <button class="music-control" id="music-btn" title="Включить/Выключить музыку">🔈</button>
 
     <div class="container">
 
@@ -454,13 +487,51 @@
     </div>
 
     <script>
+        // --- СЦЕНАРИЙ ДЛЯ МУЗЫКИ ---
+        const music = document.getElementById('bg-music');
+        const musicBtn = document.getElementById('music-btn');
+
+        // Логика переключения играть/пауза по клику
+        musicBtn.addEventListener('click', () => {
+            if (music.paused) {
+                music.play().then(() => {
+                    musicBtn.classList.add('playing');
+                    musicBtn.innerText = '🔊';
+                }).catch(err => console.log("Браузер заблокировал старт звука:", err));
+            } else {
+                music.pause();
+                musicBtn.classList.remove('playing');
+                musicBtn.innerText = '🔈';
+            }
+        });
+
+        // Попытка запустить музыку автоматически при первом клике пользователя в любом месте сайта
+        document.addEventListener('click', () => {
+            if (music.paused && !musicBtn.classList.contains('manually-paused')) {
+                music.play().then(() => {
+                    musicBtn.classList.add('playing');
+                    musicBtn.innerText = '🔊';
+                }).catch(() => {});
+            }
+        }, { once: true }); // Сработает всего один раз
+
+        // Если пользователь сам нажал на паузу, предотвращаем автостарт
+        musicBtn.addEventListener('click', () => {
+            if (music.paused) {
+                musicBtn.classList.add('manually-paused');
+            } else {
+                musicBtn.classList.remove('manually-paused');
+            }
+        });
+
+
         // --- СКРИПТ ПЛАВНОГО ПОЯВЛЕНИЯ БЛОКОВ ПРИ СКРОЛЛЕ ---
         document.addEventListener("DOMContentLoaded", function() {
             const faders = document.querySelectorAll('.fade-in-section');
             
             const appearOptions = {
-                threshold: 0.15, // Блок начнет появляться, когда 15% его площади войдут в экран
-                rootMargin: "0px 0px -50px 0px" // Небольшой отступ снизу для лучшего визуального эффекта
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
             };
 
             const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
@@ -469,7 +540,7 @@
                         return;
                     } else {
                         entry.target.classList.add('is-visible');
-                        appearOnScroll.unobserve(entry.target); // Перестаем следить, когда блок уже появился
+                        appearOnScroll.unobserve(entry.target);
                     }
                 });
             }, appearOptions);
@@ -513,13 +584,12 @@
 
             const name = document.getElementById('guest-name').value;
             const attendance = document.querySelector('input[name="attendance"]:checked').value;
-            const music = document.getElementById('guest-music').value || 'Не указано';
+            const musicInput = document.getElementById('guest-music').value || 'Не указано';
 
-            // Формируем текст для Telegram
             let message = `🔔 *Новый ответ на приглашение!*\n\n`;
             message += `👤 *Имя:* ${name}\n`;
             message += `📅 *Присутствие:* ${attendance}\n`;
-            message += `🎵 *Трек на танцпол:* ${music}`;
+            message += `🎵 *Трек на танцпол:* ${musicInput}`;
 
             if(TELEGRAM_BOT_TOKEN === 'ОСТАВЬ_ИЛИ_ВСТАВЬ_ТОКЕН') {
                 alert('Данные приняты! Музыкальное пожелание зафиксировано:\n\n' + message + '\n\n(Для отправки в реальный Telegram — пропиши Token и Chat ID)');
