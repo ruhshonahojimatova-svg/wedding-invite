@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,537 +12,371 @@
 
     <style>
         :root {
-            --bg-color: #fff8f2;
-            --text-color: #3b3028;
-            --accent-color: #b07d62;
-            --gold-color: #d4a373;
-            --polaroid-shadow: rgba(0, 0, 0, 0.18);
+            --bg-color: #f7f5f2;
+            --text-color: #2c2c2c;
+            --accent-color: #7d6b58;
+            --polaroid-shadow: rgba(0, 0, 0, 0.15);
         }
 
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
 
         body {
             font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-color);
             color: var(--text-color);
+            line-height: 1.6;
             overflow-x: hidden;
             overflow-y: hidden;
-
-            background:
-                radial-gradient(circle at top left, rgba(255,192,203,0.15), transparent 25%),
-                radial-gradient(circle at bottom right, rgba(212,175,55,0.12), transparent 25%),
-                linear-gradient(to bottom, #fffaf6, #f5ebe0);
         }
 
         body.envelope-opened {
             overflow-y: auto;
         }
 
-        /* FLOWERS */
-
-        .flower {
-            position: fixed;
-            font-size: 2rem;
-            opacity: 0.15;
-            z-index: 1;
-            animation: floatFlower 6s ease-in-out infinite;
-            pointer-events: none;
-        }
-
-        .flower-1 {
-            top: 10%;
-            left: 5%;
-        }
-
-        .flower-2 {
-            top: 60%;
-            right: 10%;
-        }
-
-        .flower-3 {
-            bottom: 15%;
-            left: 10%;
-        }
-
-        .flower-4 {
-            top: 30%;
-            right: 5%;
-        }
-
-        @keyframes floatFlower {
-            0% {
-                transform: translateY(0px) rotate(0deg);
-            }
-
-            50% {
-                transform: translateY(-15px) rotate(8deg);
-            }
-
-            100% {
-                transform: translateY(0px) rotate(0deg);
-            }
-        }
-
-        /* ENVELOPE */
-
         .envelope-overlay {
             position: fixed;
-            inset: 0;
-            background: linear-gradient(135deg, #f8efe5, #efe0d1);
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #f0eae1;
+            z-index: 2000;
             display: flex;
-            justify-content: center;
             align-items: center;
-            z-index: 9999;
-            transition: 1s ease;
-        }
-
-        .envelope-overlay.hidden {
-            opacity: 0;
-            pointer-events: none;
+            justify-content: center;
+            transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1),
+                        transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .envelope-wrapper {
             position: relative;
-            width: 340px;
-            height: 220px;
-            perspective: 1200px;
-        }
-
-        .envelope {
-            position: relative;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(145deg, #f8efe5, #e7d2bd);
-            border-radius: 8px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            max-width: 550px;
+            height: 100vh;
+            background: #faf6f0;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.12);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             overflow: hidden;
+        }
+
+        .envelope-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(35deg, #f3ede2 49.5%, #dfd5c3 50%, transparent 51.5%),
+                linear-gradient(-35deg, #f3ede2 49.5%, #dfd5c3 50%, transparent 51.5%);
+            background-size: 100% 100%;
+            opacity: 0.7;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .wax-seal {
+            width: 110px;
+            height: 110px;
+            background-color: #c5b49f;
+            border-radius: 50%;
+            position: relative;
             cursor: pointer;
+            box-shadow:
+                inset 0 3px 6px rgba(255,255,255,0.4),
+                0 8px 25px rgba(125, 107, 88, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.4s;
+            z-index: 10;
         }
 
-        .envelope-flap {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(145deg, #e8d6c4, #d8bfa8);
-            clip-path: polygon(0 0, 50% 55%, 100% 0);
-            transform-origin: top;
-            transition: transform 1.2s ease;
-            z-index: 20;
+        .wax-seal:hover {
+            transform: scale(1.08);
         }
 
-        .envelope.open .envelope-flap {
-            transform: rotateX(180deg);
+        .wax-seal-design {
+            font-size: 2.8rem;
+            color: #fdfbf7;
         }
 
-        .envelope-letter {
-            position: absolute;
-            width: 90%;
-            height: 85%;
-            background: #fffdf9;
-            left: 5%;
-            top: 20px;
-            border-radius: 6px;
-            padding: 20px;
-            text-align: center;
-            transition: transform 1s ease;
-            z-index: 5;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-        }
-
-        .envelope.open .envelope-letter {
-            transform: translateY(-120px);
-        }
-
-        .envelope-letter h2 {
-            font-family: 'Caveat', cursive;
-            font-size: 3rem;
+        .open-text {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            letter-spacing: 4px;
             color: var(--accent-color);
+            text-transform: uppercase;
+            animation: pulseText 2.5s infinite;
+            z-index: 10;
         }
 
-        .envelope-letter p {
-            margin-top: 10px;
-            color: #777;
+        @keyframes pulseText {
+            0% { opacity: 0.4; }
+            50% { opacity: 1; }
+            100% { opacity: 0.4; }
         }
 
-        /* CONTAINER */
+        .envelope-overlay.hidden {
+            opacity: 0;
+            transform: scale(1.08);
+            pointer-events: none;
+        }
 
         .container {
             max-width: 480px;
-            margin: auto;
-            background: rgba(255,255,255,0.9);
+            margin: 0 auto;
+            background: #fff;
             min-height: 100vh;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
             position: relative;
+            padding-bottom: 50px;
             display: none;
-            overflow: hidden;
-            box-shadow: 0 0 25px rgba(0,0,0,0.08);
         }
 
         body.envelope-opened .container {
             display: block;
         }
 
-        .container::before,
-        .container::after {
-            content: "❀ ❀ ❀";
-            position: absolute;
-            width: 100%;
+        .music-control {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.9);
+            border: 1px solid var(--accent-color);
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        body.envelope-opened .music-control {
+            display: flex;
+        }
+
+        .script-title {
+            font-family: 'Caveat', cursive;
+            font-size: 3.5rem;
+            color: var(--accent-color);
             text-align: center;
-            color: rgba(176,125,98,0.2);
-            font-size: 1.5rem;
-            letter-spacing: 10px;
-        }
-
-        .container::before {
-            top: 10px;
-        }
-
-        .container::after {
-            bottom: 10px;
+            margin-bottom: 15px;
         }
 
         section {
             padding: 40px 25px;
             text-align: center;
-            position: relative;
-            z-index: 2;
         }
 
-        .script-title {
-            font-family: 'Caveat', cursive;
-            font-size: 3rem;
-            color: var(--accent-color);
-            margin-bottom: 15px;
+        .hero-section {
+            background: linear-gradient(to bottom, #ffffff, var(--bg-color));
         }
-
-        /* POLAROID */
 
         .polaroid-gallery {
             position: relative;
             height: 380px;
-            margin-top: 30px;
+            margin-top: 20px;
         }
 
         .polaroid {
-            width: 200px;
-            padding: 12px 12px 25px;
-            position: absolute;
-            background: linear-gradient(to bottom, #fffdfb, #f7efe8);
-            border: 1px solid rgba(176,125,98,0.15);
-            border-radius: 8px;
+            background: white;
+            padding: 12px 12px 25px 12px;
             box-shadow: 0 8px 16px var(--polaroid-shadow);
+            width: 200px;
+            position: absolute;
         }
 
         .polaroid img {
             width: 100%;
             height: 180px;
             object-fit: cover;
-            border-radius: 5px;
         }
 
         .polaroid p {
+            font-size: 0.85rem;
             margin-top: 10px;
-            font-size: 0.9rem;
         }
 
-        .polaroid p span {
+        .polaroid span {
             font-family: 'Caveat', cursive;
-            font-size: 1.7rem;
+            font-size: 1.6rem;
             color: var(--accent-color);
+            margin-left: 8px;
         }
 
-        .groom {
-            left: 20px;
+        .polaroid.groom {
+            left: 25px;
+            top: 10px;
             transform: rotate(-4deg);
         }
 
-        .bride {
-            right: 20px;
-            top: 100px;
+        .polaroid.bride {
+            right: 25px;
+            top: 110px;
             transform: rotate(5deg);
         }
 
-        /* BUTTON */
+        .main-photo {
+            width: 100%;
+            max-height: 350px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-top: 15px;
+        }
 
         .btn {
             display: inline-block;
-            background: linear-gradient(135deg, #b07d62, #d4a373);
-            color: white;
-            padding: 14px 34px;
+            background: var(--text-color);
+            color: #fff;
+            padding: 12px 30px;
             text-decoration: none;
-            border-radius: 30px;
+            border-radius: 25px;
             font-size: 0.9rem;
             margin: 15px 0;
-            transition: 0.3s ease;
             border: none;
             cursor: pointer;
-            box-shadow: 0 10px 20px rgba(176,125,98,0.25);
         }
 
         .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 14px 25px rgba(176,125,98,0.35);
-        }
-
-        /* PHOTO */
-
-        .main-photo {
-            width: 100%;
-            border-radius: 12px;
-            margin-top: 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        }
-
-        /* TIMER */
-
-        .timer-display {
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .timer-block {
-            background: white;
-            padding: 12px;
-            border-radius: 12px;
-            min-width: 65px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-        }
-
-        .timer-val {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--accent-color);
-        }
-
-        .timer-label {
-            font-size: 0.7rem;
-            color: #777;
-        }
-
-        /* TIMELINE */
-
-        .timeline {
-            margin-top: 30px;
-            text-align: left;
-            border-left: 2px dashed var(--accent-color);
-            padding-left: 20px;
-        }
-
-        .timeline-item {
-            margin-bottom: 25px;
-            position: relative;
-        }
-
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -28px;
-            top: 7px;
-            width: 12px;
-            height: 12px;
             background: var(--accent-color);
-            border-radius: 50%;
         }
 
-        .timeline-time {
-            color: var(--accent-color);
+        .btn-whatsapp {
+            background: #25D366;
+        }
+
+        .phone-link {
+            display: inline-block;
+            font-size: 1.2rem;
             font-weight: 600;
+            color: var(--accent-color);
+            text-decoration: none;
+            margin-top: 5px;
         }
 
-        /* MUSIC BUTTON */
-
-        .music-control {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            border: none;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.9);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-            cursor: pointer;
-            display: none;
-            z-index: 999;
+        .input-text {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: inherit;
         }
 
-        body.envelope-opened .music-control {
+        .form-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .radio-box {
             display: block;
+            margin-bottom: 10px;
         }
 
-        .music-control.playing {
-            animation: rotateMusic 4s linear infinite;
+        hr {
+            border: 0;
+            border-top: 1px solid #eee;
+            margin: 20px 25px;
         }
-
-        @keyframes rotateMusic {
-            from {
-                transform: rotate(0deg);
-            }
-
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
     </style>
 </head>
 
 <body>
 
-<div class="flower flower-1">🌸</div>
-<div class="flower flower-2">❀</div>
-<div class="flower flower-3">🌺</div>
-<div class="flower flower-4">✿</div>
-
 <div class="envelope-overlay" id="envelope">
-
     <div class="envelope-wrapper">
-
-        <div class="envelope" id="real-envelope">
-
-            <div class="envelope-flap"></div>
-
-            <div class="envelope-letter">
-                <h2>М & Р</h2>
-                <p>Нажмите, чтобы открыть приглашение</p>
-            </div>
-
+        <div class="wax-seal" id="start-btn">
+            <span class="wax-seal-design">❀</span>
         </div>
 
+        <p class="open-text">Открыть приглашение</p>
     </div>
-
 </div>
 
 <audio id="bg-music" src="music.mp3" loop></audio>
 
-<button class="music-control" id="music-btn">🔊</button>
+<button class="music-control" id="music-btn">🔈</button>
 
 <div class="container">
 
-    <section>
+    <section class="hero-section">
 
-        <h1 class="script-title">Мы женимся</h1>
+        <h1 class="script-title">Мухаммадазиз & Рухшона</h1>
 
         <div class="polaroid-gallery">
 
             <div class="polaroid groom">
-                <img src="groom.jpg">
-                <p>Жених <span>Мухаммадазиз</span></p>
+                <img src="bride.jpg" alt="Рухшона">
+                <p>Невеста <span>Рухшона</span></p>
             </div>
 
             <div class="polaroid bride">
-                <img src="bride.jpg">
-                <p>Невеста <span>Рухшона</span></p>
+                <img src="groom.jpg" alt="Мухаммадазиз">
+                <p>Жених <span>Мухаммадазиз</span></p>
             </div>
 
         </div>
 
     </section>
+
+    <hr>
 
     <section>
 
         <h2 class="script-title">Дорогие родные и близкие!</h2>
 
         <p>
-            С огромной радостью приглашаем вас разделить
-            с нами самый важный день нашей жизни —
-            день нашей свадьбы!
+            Мы будем счастливы разделить с вами один из самых важных дней нашей жизни —
+            день нашей свадьбы.
         </p>
 
-        <h3 style="margin-top:20px;">6 августа 2026</h3>
+        <p>
+            С любовью приглашаем вас на наше торжество,
+            которое состоится 6 августа 2026 года.
+        </p>
 
-        <img src="couple.jpg" class="main-photo">
-
-    </section>
-
-    <section>
-
-        <h2 class="script-title">До свадьбы осталось</h2>
-
-        <div class="timer-display">
-
-            <div class="timer-block">
-                <div class="timer-val" id="days">00</div>
-                <div class="timer-label">дней</div>
-            </div>
-
-            <div class="timer-block">
-                <div class="timer-val" id="hours">00</div>
-                <div class="timer-label">часов</div>
-            </div>
-
-            <div class="timer-block">
-                <div class="timer-val" id="minutes">00</div>
-                <div class="timer-label">минут</div>
-            </div>
-
-            <div class="timer-block">
-                <div class="timer-val" id="seconds">00</div>
-                <div class="timer-label">секунд</div>
-            </div>
-
-        </div>
+        <img src="couple.jpg" class="main-photo" alt="Фото пары">
 
     </section>
 
-    <section>
-
-        <h2 class="script-title">Программа дня</h2>
-
-        <div class="timeline">
-
-            <div class="timeline-item">
-                <span class="timeline-time">16:00</span>
-                — Фотосессия
-            </div>
-
-            <div class="timeline-item">
-                <span class="timeline-time">17:00</span>
-                — Сбор гостей
-            </div>
-
-            <div class="timeline-item">
-                <span class="timeline-time">17:30</span>
-                — Регистрация
-            </div>
-
-            <div class="timeline-item">
-                <span class="timeline-time">18:00</span>
-                — Банкет
-            </div>
-
-        </div>
-
-    </section>
+    <hr>
 
     <section>
 
-        <h2 class="script-title">Локация</h2>
+        <h2 class="script-title">Место проведения</h2>
 
         <p><strong>г. Ош</strong></p>
+
         <p>Ресторан «НООРУЗ»</p>
 
-        <a href="https://2gis.kg/osh/firm/70000001040806856" class="btn" target="_blank">
+        <p>Улица Аскар Шакиров, 240а/1</p>
+
+        <a href="https://2gis.kg/osh/firm/70000001040806856" target="_blank" class="btn">
             Открыть карту
         </a>
 
     </section>
 
+    <hr>
+
     <section>
 
         <h2 class="script-title">Контакты</h2>
 
-        <a href="tel:+996557222063" class="btn">
-            Позвонить
+        <a href="tel:+996557222063" class="phone-link">
+            +996 557 22 20 63
         </a>
 
         <br>
 
-        <a href="https://wa.me/996557222063" class="btn" target="_blank">
+        <a href="https://wa.me/996557222063" target="_blank" class="btn btn-whatsapp">
             WhatsApp
         </a>
 
@@ -553,69 +386,37 @@
 
 <script>
 
-const envelope = document.getElementById('envelope');
-const realEnvelope = document.getElementById('real-envelope');
+    const envelope = document.getElementById('envelope');
+    const startBtn = document.getElementById('start-btn');
+    const music = document.getElementById('bg-music');
+    const musicBtn = document.getElementById('music-btn');
 
-const music = document.getElementById('bg-music');
-const musicBtn = document.getElementById('music-btn');
-
-realEnvelope.addEventListener('click', () => {
-
-    realEnvelope.classList.add('open');
-
-    setTimeout(() => {
+    startBtn.addEventListener('click', () => {
 
         document.body.classList.add('envelope-opened');
-
         envelope.classList.add('hidden');
 
-    }, 1500);
+        music.play().then(() => {
+            musicBtn.innerText = '🔊';
+        });
 
-    music.play();
+    });
 
-    musicBtn.classList.add('playing');
+    musicBtn.addEventListener('click', () => {
 
-});
+        if (music.paused) {
 
-musicBtn.addEventListener('click', () => {
+            music.play();
+            musicBtn.innerText = '🔊';
 
-    if (music.paused) {
+        } else {
 
-        music.play();
-        musicBtn.classList.add('playing');
+            music.pause();
+            musicBtn.innerText = '🔈';
 
-    } else {
+        }
 
-        music.pause();
-        musicBtn.classList.remove('playing');
-    }
-
-});
-
-/* TIMER */
-
-const weddingDate = new Date("August 6, 2026 17:00:00").getTime();
-
-setInterval(() => {
-
-    const now = new Date().getTime();
-
-    const distance = weddingDate - now;
-
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-
-    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-
-    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    document.getElementById("days").innerHTML = days;
-    document.getElementById("hours").innerHTML = hours;
-    document.getElementById("minutes").innerHTML = minutes;
-    document.getElementById("seconds").innerHTML = seconds;
-
-}, 1000);
+    });
 
 </script>
 
