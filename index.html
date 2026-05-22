@@ -189,7 +189,7 @@
             border: 1px solid var(--accent-color);
             outline: 3px solid var(--accent-color);
             outline-offset: -8px;
-            padding: 30px 20px;
+            padding: 30px 20px 20px 20px;
             margin: 20px auto 25px auto;
             max-width: 90%;
             background-color: #ffffff;
@@ -215,6 +215,23 @@
             font-size: 0.9rem;
             color: #555;
             font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        /* Контейнер для Яндекс Карты внутри рамки */
+        .map-wrapper {
+            width: 100%;
+            height: 250px;
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid rgba(125, 107, 88, 0.3);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .map-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
         }
 
         /* --- КНОПКА МУЗЫКИ --- */
@@ -652,6 +669,10 @@
                     <p class="city-text">г. Ош</p>
                     <h3 class="restaurant-name">Ресторан «НООРУЗ»</h3>
                     <p class="restaurant-address">Улица Аскар Шакиров, 240а/1 (2 этаж)</p>
+                    
+                    <div class="map-wrapper">
+                        <iframe src="https://yandex.ru/map-widget/v1/?ll=72.825633%2C40.518606&mode=search&oid=1040806856&ol=biz&z=16" allowfullscreen="true"></iframe>
+                    </div>
                 </div>
                 
                 <a href="https://2gis.kg/osh/firm/70000001040806856" target="_blank" class="btn btn-2gis">Открыть в 2ГИС</a>
