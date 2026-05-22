@@ -161,7 +161,7 @@
             min-height: 100vh;
             box-shadow: 0 0 20px rgba(0,0,0,0.05);
             position: relative;
-            padding-bottom: 50px;
+            padding-bottom: 30px;
             display: none; 
         }
 
@@ -381,7 +381,7 @@
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 12px 6px;
-            font-family: 'Nunito', sans-serif; /* Более мягкий "детский/мультяшный" шрифт */
+            font-family: 'Nunito', sans-serif; /* Более мягкий шрифт */
             font-size: 1rem;
             margin-top: 20px;
         }
@@ -513,12 +513,12 @@
             width: 40px;  
             height: 40px; 
             color: var(--heart-color);
-            font-size: 2.3rem; /* Крупный размер самого эмодзи сердца */
+            font-size: 2.3rem;
             line-height: 40px;
             text-align: center;
             z-index: 10;
             background-color: transparent;
-            transform: translate(-50%, -50%); /* Центрирование четко по оси */
+            transform: translate(-50%, -50%);
             pointer-events: none;
             user-select: none;
             filter: drop-shadow(0 2px 5px rgba(0,0,0,0.15));
@@ -526,7 +526,7 @@
 
         .timeline-content {
             text-align: left;
-            padding-left: 65px; /* Отступ текста от волнистой линии */
+            padding-left: 65px;
             position: relative;
             z-index: 2;
         }
@@ -607,12 +607,11 @@
             font-weight: 500;
         }
 
-        /* --- СТИЛИ ДЛЯ СЕКЦИИ "ХОРОШИЕ СЛОВА" С КАРТИНКОЙ НА ФОНЕ --- */
+        /* --- СТИЛИ ДЛЯ СЕКЦИИ "ХОРОШИЕ СЛОВА" --- */
         .details-section {
             margin: 20px auto;
             max-width: 90%;
             border-radius: 12px;
-            /* Наложение полупрозрачного белого градиента поверх фонового изображения webp */
             background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('фонхорошихслов.webp');
             background-size: cover;
             background-position: center;
@@ -661,6 +660,28 @@
             border: 0;
             border-top: 1px solid #eee;
             margin: 20px 25px;
+        }
+
+        /* --- СТИЛИ ДЛЯ СТИЛЬНОЙ РЕКЛАМНОЙ ПОДПИСИ В ФУТЕРЕ --- */
+        .footer-credit {
+            text-align: center;
+            padding: 25px 10px 10px 10px;
+            font-size: 0.75rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            opacity: 0.7;
+            font-weight: 400;
+        }
+        .footer-credit a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: opacity 0.2s;
+        }
+        .footer-credit a:hover {
+            opacity: 1;
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -864,6 +885,10 @@
             </section>
         </div>
 
+        <footer class="footer-credit">
+            Разработано: <a href="https://instagram.com/r.h_0705" target="_blank">@r.h_0705</a>
+        </footer>
+
     </div>
 
     <script>
@@ -883,101 +908,24 @@
             }).catch(err => console.log("Браузер заблокировал автовоспроизведение музыки:", err));
             
             // Первичный расчет позиции сердца сразу после открытия конверта
-            setTimeout(moveHeartAlongWave, 300);
+            if (typeof moveHeartAlongWave === "function") {
+                setTimeout(moveHeartAlongWave, 300);
+            }
         }
 
         // Переключатель музыки на сайте
         musicBtn.addEventListener('click', (e) => {
             e.stopPropagation(); 
             if (music.paused) {
-                music.play().then(() => {
-                    musicBtn.classList.add('playing');
-                    musicBtn.innerText = '🔊';
-                });
+                music.play();
+                musicBtn.classList.add('playing');
+                musicBtn.innerText = '🔊';
             } else {
                 music.pause();
-                musicBtn.classList.remove('playing'); 
+                musicBtn.classList.remove('playing');
                 musicBtn.innerText = '🔈';
             }
         });
-
-
-        // --- СКРИПТ ПЛАВНОГО ПОЯВЛЕНИЯ БЛОКОВ ПРИ СКРОЛЛЕ ---
-        document.addEventListener("DOMContentLoaded", function() {
-            const faders = document.querySelectorAll('.fade-in-section');
-            
-            const appearOptions = {
-                threshold: 0.15,
-                rootMargin: "0px 0px -50px 0px"
-            };
-
-            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
-                entries.forEach(entry => {
-                    if (!entry.isIntersecting) {
-                        return;
-                    } else {
-                        entry.target.classList.add('is-visible');
-                        appearOnScroll.unobserve(entry.target);
-                    }
-                });
-            }, appearOptions);
-
-            faders.forEach(fader => {
-                appearOnScroll.observe(fader);
-            });
-        });
-
-
-        // --- ТАЙМЕР ---
-        const weddingDate = new Date("August 6, 2026 17:00:00").getTime();
-
-        const timerInterval = setInterval(function() {
-            const now = new Date().getTime();
-            const distance = weddingDate - now;
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
-            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
-            document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
-            document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
-
-            if (distance < 0) {
-                clearInterval(timerInterval);
-                document.getElementById("countdown-timer").innerHTML = "<h3>Этот счастливый день настал!</h3>";
-            }
-        }, 1000);
-
-
-        // --- ДВИЖЕНИЕ СЕРДЦА ПО ЛИНИИ ТАЙМЛАЙНА ---
-        const heart = document.getElementById('moving-heart');
-        const path = document.getElementById('wave-path');
-        const timelineContainer = document.getElementById('wedding-timeline');
-
-        function moveHeartAlongWave() {
-            if (!heart || !path || !timelineContainer) return;
-            
-            const rect = timelineContainer.getBoundingClientRect();
-            const windowHeight = window.innerHeight;
-
-            // Вычисляем, какая часть секции проскроллена
-            let progress = (windowHeight / 2 - rect.top) / rect.height;
-            if (progress < 0) progress = 0;
-            if (progress > 1) progress = 1;
-
-            const pathLength = path.getTotalLength();
-            const point = path.getPointAtLength(progress * pathLength);
-
-            // Обновляем позицию сердца относительно SVG
-            heart.style.left = point.x + 'px';
-            heart.style.top = point.y + 'px';
-        }
-
-        window.addEventListener('scroll', moveHeartAlongWave);
-        window.addEventListener('resize', moveHeartAlongWave);
     </script>
 </body>
 </html>
