@@ -13,7 +13,7 @@
             --bg-color: #f7f5f2;
             --text-color: #2c2c2c;
             --accent-color: #7d6b58;
-            --heart-color: #b85d5d; /* Красивый благородный оттенок для движущегося сердца */
+            --heart-color: #b85d5d;
             --polaroid-shadow: rgba(0, 0, 0, 0.15);
         }
 
@@ -36,7 +36,7 @@
             overflow-y: auto;
         }
 
-        /* --- НОВЫЙ АНИМИРОВАННЫЙ ЭКРАН С КОНВЕРТОМ --- */
+        /* --- АНИМИРОВАННЫЙ ЭКРАН С КОНВЕРТОМ --- */
         #envelope-screen {
             position: fixed;
             top: 0;
@@ -55,6 +55,7 @@
             text-align: center;
             padding: 20px;
             box-shadow: 0 0 50px rgba(0, 0, 0, 0.12);
+            cursor: pointer;
         }
 
         #envelope-screen.opened {
@@ -78,7 +79,6 @@
             background-color: #ffffff;
             border-radius: 4px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-            cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -364,120 +364,6 @@
             z-index: 2;
         }
 
-        /* --- СТИЛИ ДЛЯ СОВМЕСТНОГО ФОТО В РАМКЕ СЕРДЦА --- */
-        .heart-frame {
-            position: relative;
-            width: 260px;
-            height: 240px;
-            margin: 25px auto;
-            overflow: hidden;
-            /* Обрезка картинки по точной фигуре сердца */
-            clip-path: path("M12 4.419c-2.826-5.695-11.999-4.064-11.999 3.27 0 7.27 9.903 10.938 11.999 15.311 2.116-4.382 12-8.041 12-15.311 0-7.327-9.17-8.972-12-3.27z");
-            transform: scale(10.5); /* Масштабирование path под размеры контейнера */
-            transform-origin: top center;
-        }
-
-        /* Обертка для корректного отображения и тени вокруг сердца */
-        .heart-container {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            margin: 20px auto 25px auto;
-        }
-
-        .heart-photo {
-            width: 250px;
-            height: 250px;
-            object-fit: cover;
-            /* Создание формы сердца с помощью адаптивного clip-path процентов */
-            clip-path: url(#heart-clip);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-            border: 4px solid #fff;
-        }
-
-        .heart-box {
-            width: 240px;
-            height: 240px;
-            margin: 25px auto;
-            position: relative;
-            background: #fff;
-            padding: 5px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-            clip-path: path('M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z');
-        }
-
-        /* Оптимальный кроссбраузерный вариант рамки-сердца */
-        .heart-wrapper {
-            position: relative;
-            width: 240px;
-            height: 240px;
-            margin: 30px auto;
-            background: #ffffff;
-            padding: 7px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            border-radius: 50% 50% 0 0;
-            transform: rotate(-45deg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .heart-wrapper::before {
-            content: '';
-            position: absolute;
-            width: 240px;
-            height: 240px;
-            background: inherit;
-            border-radius: 50%;
-            top: -120px;
-            left: 0;
-        }
-        .heart-wrapper::after {
-            content: '';
-            position: absolute;
-            width: 240px;
-            height: 240px;
-            background: inherit;
-            border-radius: 50%;
-            top: 0;
-            left: 120px;
-        }
-        .heart-inner-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transform: rotate(45deg) scale(1.4);
-            border-radius: 5px;
-            position: relative;
-            z-index: 5;
-            clip-path: path('M 110 20 C 30 -40, -40 50, 110 210 C 260 50, 190 -40, 110 20 Z');
-        }
-
-        /* Современный и чистый вариант маски сердца */
-        .clean-heart-frame {
-            width: 260px;
-            height: 260px;
-            margin: 25px auto;
-            background-color: #fff;
-            padding: 6px;
-            box-shadow: 0 8px 20px rgba(125, 107, 88, 0.15);
-            clip-path: path('M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z');
-            transform: scale(10.8);
-            transform-origin: top center;
-        }
-
-        /* Итоговый стабильный CSS для сердца */
-        .wedding-heart-mask {
-            width: 250px;
-            height: 250px;
-            margin: 25px auto;
-            background: #ffffff;
-            padding: 5px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-            -webkit-clip-path: rose;
-            clip-path: path('M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z');
-        }
-
-        /* Самый надежный CSS-способ создания рамки-сердца для изображений */
         .heart-photo-wrap {
             width: 240px;
             height: 240px;
@@ -492,7 +378,7 @@
             clip-path: path('M120 213.28l-14.5-13.18C54 153.52 20 122.69 20 84.92 20 54.18 44.18 30 74.92 30c17.38 0 34.05 8.09 45.08 20.84C130.95 38.09 147.62 30 165.08 30 195.82 30 220 54.18 220 84.92c0 37.77-34 68.6-85.5 115.27L120 213.28z');
         }
 
-        /* --- НОВЫЙ ИНТЕРЕСНЫЙ МУЛЬТЯШНЫЙ КАЛЕНДАРЬ --- */
+        /* --- КАЛЕНДАРЬ --- */
         .calendar-container {
             margin-top: 30px;
             padding: 20px;
@@ -509,7 +395,7 @@
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 12px 6px;
-            font-family: 'Nunito', sans-serif; /* Более мягкий "детский/мультяшный" шрифт */
+            font-family: 'Nunito', sans-serif;
             font-size: 1rem;
             margin-top: 20px;
         }
@@ -542,7 +428,6 @@
             color: var(--accent-color);
         }
         
-        /* Стилизация дня свадьбы с красивым контурным сердцем */
         .calendar-day.wedding-date {
             color: var(--heart-color);
             font-weight: 900;
@@ -551,7 +436,6 @@
             z-index: 5;
         }
         
-        /* Рисуем аккуратное полое сердечко вокруг цифры */
         .calendar-day.wedding-date::before {
             content: '♡';
             position: absolute;
@@ -609,14 +493,13 @@
             color: #777;
         }
         
-        /* --- ОБНОВЛЕННЫЙ ТАЙМЛАЙН С ВОЛНИСТОЙ ЛИНИЕЙ И БОЛЬШИМ СЕРДЦЕМ --- */
+        /* --- ТАЙМЛАЙН --- */
         .timeline-container {
             position: relative;
             margin-top: 35px;
             padding: 10px 0;
         }
 
-        /* SVG контейнер для гибкой волнистой линии */
         .timeline-svg {
             position: absolute;
             top: 0;
@@ -633,7 +516,6 @@
             stroke-linecap: round;
         }
 
-        /* УВЕЛИЧЕННОЕ скользящее сердечко */
         .timeline-heart {
             position: absolute;
             left: 20px;
@@ -641,12 +523,12 @@
             width: 40px;  
             height: 40px; 
             color: var(--heart-color);
-            font-size: 2.3rem; /* Крупный размер самого эмодзи сердца */
+            font-size: 2.3rem;
             line-height: 40px;
             text-align: center;
             z-index: 10;
             background-color: transparent;
-            transform: translate(-50%, -50%); /* Центрирование четко по оси */
+            transform: translate(-50%, -50%);
             pointer-events: none;
             user-select: none;
             filter: drop-shadow(0 2px 5px rgba(0,0,0,0.15));
@@ -654,7 +536,7 @@
 
         .timeline-content {
             text-align: left;
-            padding-left: 65px; /* Отступ текста от волнистой линии */
+            padding-left: 65px;
             position: relative;
             z-index: 2;
         }
@@ -699,23 +581,6 @@
         .btn-2gis:hover {
             background: #258200;
         }
-        
-        .btn-whatsapp {
-            background: #25D366;
-            margin-top: 5px;
-        }
-        .btn-whatsapp:hover {
-            background: #128C7E;
-        }
-        .phone-link {
-            display: inline-block;
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--accent-color);
-            text-decoration: none;
-            margin-top: 5px;
-            letter-spacing: 1px;
-        }
 
         .dress-code-section {
             margin: 20px auto;
@@ -733,56 +598,6 @@
             font-size: 0.9rem;
             color: #333;
             font-weight: 500;
-        }
-
-        /* --- СТИЛИ ДЛЯ СЕКЦИИ "ХОРОШИЕ СЛОВА" С КАРТИНКОЙ НА ФОНЕ --- */
-        .details-section {
-            margin: 20px auto;
-            max-width: 90%;
-            border-radius: 12px;
-            /* Наложение полупрозрачного белого градиента поверх фонового изображения webp */
-            background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('фонхорошихслов.webp');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            border: 1px solid rgba(125, 107, 88, 0.15);
-            padding: 35px 20px;
-        }
-
-        .good-words-text {
-            font-size: 0.95rem;
-            color: #2c2c2c;
-            padding: 0 10px;
-            line-height: 1.8;
-            font-weight: 500;
-        }
-
-        .form-group {
-            text-align: left;
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        .input-text {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-family: inherit;
-        }
-        .radio-box {
-            display: block;
-            margin-bottom: 10px;
-            font-size: 0.9rem;
-            cursor: pointer;
-        }
-        .radio-box input {
-            margin-right: 10px;
         }
 
         hr {
@@ -927,97 +742,126 @@
             <hr>
             <section class="dress-code-section">
                 <h2 class="script-title">Дресс-код</h2>
-                <p class="dress-code-text">
-                    Будем искренне рады, если вы поддержите атмосферу нашего праздника и выберете для этого особенного вечера свои самые красивые, элегантные и вечерние наряды! 
-                </p>
-                <p class="dress-code-text" style="font-size: 0.85rem; margin-top: 10px; font-style: italic; color: var(--accent-color); font-weight: 600;">
-                    (Убедительная просьба: пожалуйста, оставьте белый цвет для платья невесты 🤍)
-                </p>
-                <p class="dress-code-text" style="margin-top: 15px;">
-                    Ваша индивидуальность — это главное украшение нашего торжества. Пусть этот день будет наполнен не только нашей любовью, но и вашей неповторимой красотой!
-                </p>
-            </section>
-        </div>
-
-        <div class="fade-in-section">
-            <hr>
-            <section class="details-section">
-                <h2 class="script-title">Хорошие слова</h2>
-                <p class="good-words-text">
-                    Самый главный подарок для нас — это ваше присутствие, ваши искренние улыбки и тёплые объятия в этот важный для нас день. <br><br>
-                    Мы создаём праздник, на котором каждому будет уютно и тепло. Давайте вместе напишем первую главу нашей семейной истории, наполненную радостью, смехом и незабываемыми моментами!
-                </p>
-            </section>
-        </div>
-
-        <div class="fade-in-section">
-            <hr>
-            <section class="form-section">
-                <h2 class="script-title">Опрос гостей</h2>
-                
-                <form id="rsvp-form">
-                    <div class="form-group">
-                        <label for="guest-name">Напишите, пожалуйста, Ваши ФИО</label>
-                        <input type="text" id="guest-name" class="input-text" placeholder="Ваши ФИО" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Сможете ли присутствовать на нашем торжестве?</label>
-                        <label class="radio-box"><input type="radio" name="attendance" value="Я с удовольствием приду" checked> Я с удовольствием приду</label>
-                        <label class="radio-box"><input type="radio" name="attendance" value="Буду со своей парой"> Буду со своей парой</label>
-                        <label class="radio-box"><input type="radio" name="attendance" value="К сожалению, не смогу присутствовать"> К сожалению, не смогу присутствовать</label>
-                        <label class="radio-box"><input type="radio" name="attendance" value="Сообщу позже"> Сообщу позже</label>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="guest-music">Пожелания по музыке</label>
-                        <input type="text" id="guest-music" class="input-text" placeholder="Какая песня заставит Вас выйти на танцпол?">
-                    </div>
-
-                    <button type="submit" class="btn" style="width: 100%;">Отправить ответ</button>
-                </form>
-            </section>
-        </div>
-
-        <div class="fade-in-section">
-            <hr>
-            <section class="contacts-section">
-                <h2 class="script-title">Контакты</h2>
-                <p style="font-size: 0.9rem; margin-bottom: 10px;">Если у вас возникнут какие-то вопросы в день мероприятия, вы можете обратиться к невесте:</p>
-                
-                <a href="tel:+996557222063" class="phone-link">+996 (557) 22-20-63</a>
-                
-                <br>
-                
-                <a href="https://wa.me/996557222063" target="_blank" class="btn btn-whatsapp">Написать невесте в WhatsApp</a>
-                
-                <hr style="margin: 20px 0; border-top: 1px dashed #eee;">
-                
-                <a href="https://t.me/+lRTiobiX4KMyNWQy" target="_blank" class="btn" style="background: #222; width: 100%;">Чат гостей</a>
+                <p class="dress-code-text">Будем признательны, если вы поддержите цветовую гамму нашей свадьбы при выборе праздничных нарядов.</p>
             </section>
         </div>
 
     </div>
 
     <script>
-        // --- СЦЕНАРИЙ ДЛЯ КЛИКА ПО КОНВЕРТУ ---
-        const envelopeScreen = document.getElementById('envelope-screen');
+        // 1. ОТКРЫТИЕ КОНВЕРТА И ПЛЕЕР
         const music = document.getElementById('bg-music');
         const musicBtn = document.getElementById('music-btn');
 
         function openEnvelope() {
-            document.body.classList.add('envelope-opened');
+            const envelopeScreen = document.getElementById('envelope-screen');
             envelopeScreen.classList.add('opened');
-            
-            // Запуск фоновой музыки
+            document.body.classList.add('envelope-opened');
+
+            // Запуск музыки при открытии
             music.play().then(() => {
                 musicBtn.classList.add('playing');
-                musicBtn.innerText = '🔊';
-            }).catch(err => console.log("Браузер заблокировал автовоспроизведение музыки:", err));
-            
-            // Первичный расчет позиции сердца сразу после открытия конверта
-            setTimeout(moveHeartAlongWave, 300);
+                musicBtn.textContent = '🔊';
+            }).catch(err => {
+                console.log("Автовоспроизведение заблокировано браузером. Требуется ручной клик по иконке.");
+            });
+
+            // Инициализация анимации появления при скролле
+            initScrollAnimations();
         }
+
+        // Управление музыкой кнопкой на экране
+        musicBtn.addEventListener('click', () => {
+            if (music.paused) {
+                music.play();
+                musicBtn.classList.add('playing');
+                musicBtn.textContent = '🔊';
+            } else {
+                music.pause();
+                musicBtn.classList.remove('playing');
+                musicBtn.textContent = '🔈';
+            }
+        });
+
+        // 2. СЧЕТЧИК ВРЕМЕНИ ДО СВАДЬБЫ
+        const weddingDate = new Date('August 6, 2026 16:00:00').getTime();
+
+        const timerInterval = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+
+            if (distance < 0) {
+                clearInterval(timerInterval);
+                document.getElementById('countdown-timer').innerHTML = "<h3>День свадьбы наступил!</h3>";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('days').innerText = days < 10 ? '0' + days : days;
+            document.getElementById('hours').innerText = hours < 10 ? '0' + hours : hours;
+            document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
+        }, 1000);
+
+        // 3. ПЛАВНОЕ ПОЯВЛЕНИЕ СЕКЦИЙ ПРИ СКРОЛЛЕ
+        function initScrollAnimations() {
+            const sections = document.querySelectorAll('.fade-in-section');
+            const observerOptions = {
+                root: null,
+                threshold: 0.1,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        }
+
+        // 4. ДВИЖЕНИЕ СЕРДЦА ПО СИНУСОИДЕ ТАЙМЛАЙНА С УЧЕТОМ МАСШТАБИРОВАНИЯ SVG
+        window.addEventListener('scroll', () => {
+            const timeline = document.getElementById('wedding-timeline');
+            const heart = document.getElementById('moving-heart');
+            const path = document.getElementById('wave-path');
+
+            if (!timeline || !heart || !path) return;
+
+            const rect = timeline.getBoundingClientRect();
+            const viewHeight = window.innerHeight;
+
+            // Определяем, насколько прокручен таймлайн относительно экрана
+            if (rect.top < viewHeight && rect.bottom > 0) {
+                const totalHeight = rect.height;
+                const scrolledIntoTimeline = viewHeight - rect.top;
+                let percent = scrolledIntoTimeline / (viewHeight + totalHeight - 200);
+
+                // Ограничиваем границы от 0 до 1
+                percent = Math.max(0, Math.min(1, percent));
+
+                const pathLength = path.getTotalLength();
+                const point = path.getPointAtLength(percent * pathLength);
+                
+                // Получаем актуальный коэффициент соотношения SVG viewBox и его реального HTML размера
+                const svgElement = document.getElementById('svg-line');
+                const scaleY = rect.height / 600; 
+                const scaleX = svgElement.clientWidth / 40; 
+
+                // Рассчитываем точные координаты с учетом адаптивности ширины и высоты
+                heart.style.top = (point.y * scaleY) + 'px';
+                heart.style.left = (point.x * scaleX) + 'px';
+            }
+        });
     </script>
 </body>
 </html>
