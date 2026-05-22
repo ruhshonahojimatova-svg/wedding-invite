@@ -35,102 +35,121 @@
             overflow-y: auto;
         }
 
-        /* --- ПОЛНОЭКРАННЫЙ СТИЛЬНЫЙ КОНВЕРТ --- */
-        .envelope-overlay {
+        /* --- НОВЫЙ АНИМИРОВАННЫЙ ЭКРАН С КОНВЕРТОМ --- */
+        #envelope-screen {
             position: fixed;
             top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: #f0eae1; 
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.9s cubic-bezier(0.4, 0, 0.2, 1), transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .envelope-wrapper {
-            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
             width: 100%;
-            max-width: 550px; 
-            height: 100vh;     
-            background: #faf6f0; 
-            box-shadow: 0 0 50px rgba(0, 0, 0, 0.12);
+            max-width: 550px; /* Выравнивание под ширину основного контейнера */
+            height: 100vh;
+            background: linear-gradient(135deg, #e0e5ec, #f0f4f8);
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
-            overflow: hidden;
+            align-items: center;
+            z-index: 2000;
+            transition: transform 0.9s cubic-bezier(0.77, 0, 0.175, 1);
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.12);
         }
 
-        .envelope-wrapper::before {
+        /* Уводим конверт наверх после клика */
+        #envelope-screen.opened {
+            transform: translate(-50%, -100vh);
+            pointer-events: none;
+        }
+
+        .envelope-title {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--accent-color);
+            margin-bottom: 40px;
+            font-weight: 600;
+        }
+
+        /* Основа конверта */
+        .envelope-wrapper {
+            position: relative;
+            width: 300px;
+            height: 190px;
+            background-color: #ffffff;
+            border-radius: 4px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            perspective: 1000px;
+        }
+
+        /* Нижний шов конверта и боковые складки */
+        .envelope-wrapper::after {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
             background: 
-                linear-gradient(35deg, #f3ede2 49.5%, #dfd5c3 50%, transparent 51.5%),
-                linear-gradient(-35deg, #f3ede2 49.5%, #dfd5c3 50%, transparent 51.5%);
+                linear-gradient(35deg, #f5efe4 49.5%, #dcd2c1 50%, transparent 51.5%),
+                linear-gradient(-35deg, #f5efe4 49.5%, #dcd2c1 50%, transparent 51.5%);
             background-size: 100% 100%;
-            opacity: 0.7;
-            pointer-events: none;
             z-index: 2;
+            border-radius: 4px;
         }
 
-        .envelope-wrapper::after {
+        /* Верхний клапан конверта (треугольник) */
+        .envelope-wrapper::before {
             content: '';
             position: absolute;
-            bottom: 0; left: 0; right: 0; height: 60%;
-            background: linear-gradient(to top, rgba(223, 213, 195, 0.3), transparent);
-            pointer-events: none;
-            z-index: 2;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 110px solid #c5b49f; /* Красивый оттенок клапана */
+            transform-origin: top;
+            transition: transform 0.5s ease;
+            z-index: 3;
         }
 
+        /* Анимация раскрытия клапана вверх при наведении */
+        .envelope-wrapper:hover::before {
+            transform: rotateX(160deg) translateY(-10px);
+            z-index: 1; /* Опускаем за печать при раскрытии */
+        }
+
+        /* Сургучная печать по центру */
         .wax-seal {
-            width: 110px;
-            height: 110px;
-            background-color: #c5b49f; 
-            border-radius: 50%;
-            position: relative;
-            cursor: pointer;
-            box-shadow: inset 0 3px 6px rgba(255,255,255,0.4), 
-                        0 8px 25px rgba(125, 107, 88, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 10; 
-        }
-
-        .wax-seal::before {
-            content: '';
             position: absolute;
-            top: -5px; left: -5px; right: -5px; bottom: -5px;
+            width: 65px;
+            height: 65px;
+            background: radial-gradient(#c5b49f, #ab9a85);
             border-radius: 50%;
-            border: 2px dashed rgba(255, 255, 255, 0.3);
-        }
-
-        .wax-seal-design {
-            font-size: 2.8rem;
+            z-index: 4;
+            box-shadow: inset 0 2px 4px rgba(255,255,255,0.4), 0 6px 15px rgba(0,0,0,0.15);
+            display: flex;
+            justify-content: center;
+            align-items: center;
             color: #fdfbf7;
+            font-size: 1.8rem;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             user-select: none;
-            opacity: 0.95;
-            filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
         }
 
-        .wax-seal:hover {
-            transform: scale(1.08);
+        .envelope-wrapper:hover .wax-seal {
+            transform: scale(1.1);
         }
 
-        .open-text {
-            margin-top: 30px;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 0.9rem;
-            letter-spacing: 4px;
-            color: var(--accent-color);
+        /* Подсказка под конвертом */
+        .envelope-hint {
+            margin-top: 40px;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            font-weight: 400;
-            z-index: 10;
+            color: var(--accent-color);
             animation: pulseText 2.5s infinite;
         }
 
@@ -138,12 +157,6 @@
             0% { opacity: 0.4; transform: scale(0.98); }
             50% { opacity: 1; transform: scale(1); }
             100% { opacity: 0.4; transform: scale(0.98); }
-        }
-
-        .envelope-overlay.hidden {
-            opacity: 0;
-            transform: scale(1.08);
-            pointer-events: none;
         }
 
         /* --- ОСНОВНОЙ КОНТЕНТ САЙТА --- */
@@ -288,7 +301,6 @@
             vertical-align: middle; 
         }
 
-        /* Исправлено: Стили для карточки Жениха */
         .polaroid.groom {
             left: 25px;
             top: 10px;
@@ -296,7 +308,6 @@
             z-index: 1;
         }
 
-        /* Исправлено: Стили для карточки Невесты */
         .polaroid.bride {
             right: 25px;
             top: 110px;
@@ -496,13 +507,12 @@
 </head>
 <body>
 
-    <div class="envelope-overlay" id="envelope">
+    <div id="envelope-screen" onclick="openEnvelope()">
+        <div class="envelope-title">Вам пришло приглашение</div>
         <div class="envelope-wrapper">
-            <div class="wax-seal" id="start-btn">
-                <span class="wax-seal-design">❀</span>
-            </div>
-            <p class="open-text">Открыть приглашение</p>
+            <div class="wax-seal">❀</div>
         </div>
+        <div class="envelope-hint">Нажмите на конверт, чтобы открыть</div>
     </div>
 
     <audio id="bg-music" src="путь_к_твоему_треку.mp3" loop></audio>
@@ -672,23 +682,26 @@
     </div>
 
     <script>
-        // --- СЦЕНАРИЙ ДЛЯ КОНВЕРТА И МУЗЫКИ ---
-        const envelope = document.getElementById('envelope');
-        const startBtn = document.getElementById('start-btn');
+        // --- ОБНОВЛЕННЫЙ СЦЕНАРИЙ ДЛЯ КЛИКА ПО КОНВЕРТУ ---
+        const envelopeScreen = document.getElementById('envelope-screen');
         const music = document.getElementById('bg-music');
         const musicBtn = document.getElementById('music-btn');
 
-        startBtn.addEventListener('click', () => {
+        // Функция открытия конверта при клике на ЛЮБУЮ область стартового экрана
+        function openEnvelope() {
             document.body.classList.add('envelope-opened');
-            envelope.classList.add('hidden');
+            envelopeScreen.classList.add('opened');
             
+            // Запуск фоновой музыки
             music.play().then(() => {
                 musicBtn.classList.add('playing');
                 musicBtn.innerText = '🔊';
             }).catch(err => console.log("Браузер заблокировал автовоспроизведение музыки:", err));
-        });
+        }
 
-        musicBtn.addEventListener('click', () => {
+        // Переключатель музыки на сайте
+        musicBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // Исключаем срабатывание клика по экрану
             if (music.paused) {
                 music.play().then(() => {
                     musicBtn.classList.add('playing');
@@ -763,7 +776,6 @@
             const attendance = document.querySelector('input[name="attendance"]:checked').value;
             const musicInput = document.getElementById('guest-music').value || 'Не указано';
 
-            // Изменено на HTML разметку для стабильности при вводе спецсимволов гостями
             let message = `🔔 <b>Новый ответ на приглашение!</b>\n\n`;
             message += `👤 <b>Имя:</b> ${name}\n`;
             message += `📅 <b>Присутствие:</b> ${attendance}\n`;
