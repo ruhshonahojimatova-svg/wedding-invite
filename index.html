@@ -364,134 +364,6 @@
             z-index: 2;
         }
 
-        /* --- СТИЛИ ДЛЯ СОВМЕСТНОГО ФОТО В РАМКЕ СЕРДЦА --- */
-        .heart-frame {
-            position: relative;
-            width: 260px;
-            height: 240px;
-            margin: 25px auto;
-            overflow: hidden;
-            /* Обрезка картинки по точной фигуре сердца */
-            clip-path: path("M12 4.419c-2.826-5.695-11.999-4.064-11.999 3.27 0 7.27 9.903 10.938 11.999 15.311 2.116-4.382 12-8.041 12-15.311 0-7.327-9.17-8.972-12-3.27z");
-            transform: scale(10.5); /* Масштабирование path под размеры контейнера */
-            transform-origin: top center;
-        }
-
-        /* Обертка для корректного отображения и тени вокруг сердца */
-        .heart-container {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            margin: 20px auto 25px auto;
-        }
-
-        .heart-photo {
-            width: 250px;
-            height: 250px;
-            object-fit: cover;
-            /* Создание формы сердца с помощью адаптивного clip-path процентов */
-            clip-path: url(#heart-clip);
-            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-            border: 4px solid #fff;
-        }
-
-        .heart-box {
-            width: 240px;
-            height: 240px;
-            margin: 25px auto;
-            position: relative;
-            background: #fff;
-            padding: 5px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-            clip-path: path('M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z');
-        }
-
-        /* Оптимальный кроссбраузерный вариант рамки-сердца */
-        .heart-wrapper {
-            position: relative;
-            width: 240px;
-            height: 240px;
-            margin: 30px auto;
-            background: #ffffff;
-            padding: 7px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            border-radius: 50% 50% 0 0;
-            transform: rotate(-45deg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .heart-wrapper::before {
-            content: '';
-            position: absolute;
-            width: 240px;
-            height: 240px;
-            background: inherit;
-            border-radius: 50%;
-            top: -120px;
-            left: 0;
-        }
-        .heart-wrapper::after {
-            content: '';
-            position: absolute;
-            width: 240px;
-            height: 240px;
-            background: inherit;
-            border-radius: 50%;
-            top: 0;
-            left: 120px;
-        }
-        .heart-inner-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transform: rotate(45deg) scale(1.4);
-            border-radius: 5px;
-            position: relative;
-            z-index: 5;
-            clip-path: path('M 110 20 C 30 -40, -40 50, 110 210 C 260 50, 190 -40, 110 20 Z');
-        }
-
-        /* Современный и чистый вариант маски сердца */
-        .clean-heart-frame {
-            width: 260px;
-            height: 260px;
-            margin: 25px auto;
-            background-color: #fff;
-            padding: 6px;
-            box-shadow: 0 8px 20px rgba(125, 107, 88, 0.15);
-            clip-path: path('M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z');
-            transform: scale(10.8);
-            transform-origin: top center;
-        }
-
-        /* Итоговый стабильный CSS для сердца */
-        .wedding-heart-mask {
-            width: 250px;
-            height: 250px;
-            margin: 25px auto;
-            background: #ffffff;
-            padding: 5px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-            -webkit-clip-path: rose;
-            clip-path: path('M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z');
-        }
-
-        /* Самый надежный CSS-способ создания рамки-сердца для изображений */
-        .heart-photo-wrap {
-            width: 240px;
-            height: 240px;
-            margin: 25px auto;
-            position: relative;
-            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.12));
-        }
-        .heart-photo-wrap img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            clip-path: path('M120 213.28l-14.5-13.18C54 153.52 20 122.69 20 84.92 20 54.18 44.18 30 74.92 30c17.38 0 34.05 8.09 45.08 20.84C130.95 38.09 147.62 30 165.08 30 195.82 30 220 54.18 220 84.92c0 37.77-34 68.6-85.5 115.27L120 213.28z');
-        }
-
         /* --- НОВЫЙ ИНТЕРЕСНЫЙ МУЛЬТЯШНЫЙ КАЛЕНДАРЬ --- */
         .calendar-container {
             margin-top: 30px;
@@ -844,11 +716,6 @@
             <hr>
             <section class="intro-section">
                 <h2 class="script-title">Дорогие родные и близкие!</h2>
-                
-                <div class="heart-photo-wrap">
-                    <img src="совместное_фото.jpg" alt="Совместное фото Мухаммадазиза и Рухшоны">
-                </div>
-
                 <p>Узнали этих карапузов?</p>
                 <p>Да-да! Время летит незаметно, но это не повод грустить, ведь мы повзрослели и приняли важное решение — создать семью!</p>
                 <h3 style="font-weight: 400; letter-spacing: 1px;">6 августа 2026 года</h3>
@@ -1018,6 +885,99 @@
             // Первичный расчет позиции сердца сразу после открытия конверта
             setTimeout(moveHeartAlongWave, 300);
         }
+
+        // Переключатель музыки на сайте
+        musicBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); 
+            if (music.paused) {
+                music.play().then(() => {
+                    musicBtn.classList.add('playing');
+                    musicBtn.innerText = '🔊';
+                });
+            } else {
+                music.pause();
+                musicBtn.classList.remove('playing'); 
+                musicBtn.innerText = '🔈';
+            }
+        });
+
+
+        // --- СКРИПТ ПЛАВНОГО ПОЯВЛЕНИЯ БЛОКОВ ПРИ СКРОЛЛЕ ---
+        document.addEventListener("DOMContentLoaded", function() {
+            const faders = document.querySelectorAll('.fade-in-section');
+            
+            const appearOptions = {
+                threshold: 0.15,
+                rootMargin: "0px 0px -50px 0px"
+            };
+
+            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) {
+                        return;
+                    } else {
+                        entry.target.classList.add('is-visible');
+                        appearOnScroll.unobserve(entry.target);
+                    }
+                });
+            }, appearOptions);
+
+            faders.forEach(fader => {
+                appearOnScroll.observe(fader);
+            });
+        });
+
+
+        // --- ТАЙМЕР ---
+        const weddingDate = new Date("August 6, 2026 17:00:00").getTime();
+
+        const timerInterval = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = weddingDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
+            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
+            document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
+
+            if (distance < 0) {
+                clearInterval(timerInterval);
+                document.getElementById("countdown-timer").innerHTML = "<h3>Этот счастливый день настал!</h3>";
+            }
+        }, 1000);
+
+
+        // --- ДВИЖЕНИЕ СЕРДЦА ПО ЛИНИИ ТАЙМЛАЙНА ---
+        const heart = document.getElementById('moving-heart');
+        const path = document.getElementById('wave-path');
+        const timelineContainer = document.getElementById('wedding-timeline');
+
+        function moveHeartAlongWave() {
+            if (!heart || !path || !timelineContainer) return;
+            
+            const rect = timelineContainer.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+
+            // Вычисляем, какая часть секции проскроллена
+            let progress = (windowHeight / 2 - rect.top) / rect.height;
+            if (progress < 0) progress = 0;
+            if (progress > 1) progress = 1;
+
+            const pathLength = path.getTotalLength();
+            const point = path.getPointAtLength(progress * pathLength);
+
+            // Обновляем позицию сердца относительно SVG
+            heart.style.left = point.x + 'px';
+            heart.style.top = point.y + 'px';
+        }
+
+        window.addEventListener('scroll', moveHeartAlongWave);
+        window.addEventListener('resize', moveHeartAlongWave);
     </script>
 </body>
 </html>
