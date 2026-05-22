@@ -561,12 +561,27 @@
             font-weight: 500;
         }
 
+        /* --- СТИЛИ ДЛЯ СЕКЦИИ "ХОРОШИЕ СЛОВА" С КАРТИНКОЙ НА ФОНЕ --- */
+        .details-section {
+            margin: 20px auto;
+            max-width: 90%;
+            border-radius: 12px;
+            /* Наложение полупрозрачного белого градиента поверх фонового изображения webp */
+            background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('фонхорошихслов.webp');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(125, 107, 88, 0.15);
+            padding: 35px 20px;
+        }
+
         .good-words-text {
-            font-size: 1rem;
-            font-style: italic;
-            color: #4a4a4a;
+            font-size: 0.95rem;
+            color: #2c2c2c;
             padding: 0 10px;
             line-height: 1.8;
+            font-weight: 500;
         }
 
         .form-group {
@@ -890,48 +905,35 @@
             }
         }, 1000);
 
-
-        // --- УМНАЯ АНИМАЦИЯ ДВИЖЕНИЯ СЕРДЕЧКА ПО SVG ПУТИ ---
-        window.addEventListener('scroll', moveHeartAlongWave);
-        window.addEventListener('resize', moveHeartAlongWave);
-
+        // --- ДВИЖЕНИЕ СЕРДЦА ПО ЛИНИИ ---
         function moveHeartAlongWave() {
-            const timeline = document.getElementById('wedding-timeline');
-            const heart = document.getElementById('moving-heart');
             const path = document.getElementById('wave-path');
-            const svg = document.getElementById('svg-line');
-
-            if (!timeline || !heart || !path || !svg) return;
-
-            const rect = timeline.getBoundingClientRect();
-            const viewHeight = window.innerHeight;
-
-            // Сердечко начинает движение, когда верх блока доходит до середины экрана
-            // И заканчивает, когда низ блока поднимается до середины экрана
-            const startAnchor = viewHeight * 0.6;
-            const endAnchor = viewHeight * 0.4;
-
-            let progress = (startAnchor - rect.top) / (rect.height - (startAnchor - endAnchor));
+            const heart = document.getElementById('moving-heart');
+            const timeline = document.getElementById('wedding-timeline');
             
-            // Загоняем прогресс в жесткие рамки [0, 1]
-            if (progress < 0) progress = 0;
-            if (progress > 1) progress = 1;
+            if (!path || !heart || !timeline) return;
 
-            // Считываем точную длину кривой и координаты точки на ней в текущий момент
             const pathLength = path.getTotalLength();
+            const timelineRect = timeline.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+
+            // Вычисляем процент прокрутки секции таймлайна на экране
+            const visibleTop = timelineRect.top;
+            const timelineHeight = timelineRect.height;
+
+            let progress = (windowHeight / 2 - visibleTop) / timelineHeight;
+            progress = Math.max(0, Math.min(1, progress));
+
+            // Получаем координаты точки на SVG-пути
             const point = path.getPointAtLength(progress * pathLength);
 
-            const svgRect = svg.getBoundingClientRect();
-            const containerRect = timeline.getBoundingClientRect();
-
-            // Пересчитываем относительные координаты SVG в пиксели родительского контейнера
-            const targetX = svgRect.left - containerRect.left + (point.x * (svgRect.width / 40));
-            const targetY = svgRect.top - containerRect.top + (point.y * (svgRect.height / 600));
-
-            // Перемещаем сердце
-            heart.style.left = `${targetX}px`;
-            heart.style.top = `${targetY}px`;
+            // Двигаем сердечко
+            heart.style.top = point.y + 'px';
+            heart.style.left = (point.x + 20) + 'px'; // Корректируем по отступу SVG
         }
+
+        window.addEventListener('scroll', moveHeartAlongWave);
+        window.addEventListener('resize', moveHeartAlongWave);
     </script>
 </body>
 </html>
