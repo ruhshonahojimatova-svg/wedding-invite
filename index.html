@@ -953,6 +953,32 @@
             });
         });
 
+
+        // Таймер обратного отсчета до 6 августа 2026 года
+        function updateCountdown() {
+            const weddingDate = new Date('August 6, 2026 16:00:00').getTime();
+            const now = new Date().getTime();
+            const diff = weddingDate - now;
+
+            if (diff <= 0) {
+                document.getElementById('countdown-timer').innerHTML = "<h3>Этот счастливый день настал!</h3>";
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('days').innerText = days < 10 ? '0' + days : days;
+            document.getElementById('hours').innerText = hours < 10 ? '0' + hours : hours;
+            document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
+        }
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+
         // --- ОТПРАВКА В TELEGRAM ---
         const TELEGRAM_BOT_TOKEN = '8556775064:AAEzpPRZOiWtKlgTauNIEkYQ6E9vYDFKv6Q'; 
         const TELEGRAM_CHAT_ID = '1391803164';
@@ -993,30 +1019,6 @@
                 alert('Ошибка соединения при отправке.');
             });
         });
-
-        // Таймер обратного отсчета до 6 августа 2026 года
-        function updateCountdown() {
-            const weddingDate = new Date('August 6, 2026 16:00:00').getTime();
-            const now = new Date().getTime();
-            const diff = weddingDate - now;
-
-            if (diff <= 0) {
-                document.getElementById('countdown-timer').innerHTML = "<h3>Этот счастливый день настал!</h3>";
-                return;
-            }
-
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-
-            document.getElementById('days').innerText = days < 10 ? '0' + days : days;
-            document.getElementById('hours').innerText = hours < 10 ? '0' + hours : hours;
-            document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
-            document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
-        }
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
 
     </script>
 </body>
