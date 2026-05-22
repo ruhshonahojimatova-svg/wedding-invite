@@ -169,6 +169,21 @@
             display: block;
         }
 
+        /* КРАСИВЫЕ РАЗДЕЛЬНЫЕ ЛИНИИ (ЗАМЕНА ДЛЯ HR) */
+        .custom-divider {
+            display: block;
+            width: 80%;
+            height: 20px;
+            margin: 30px auto;
+        }
+        .custom-divider path {
+            fill: none;
+            stroke: var(--accent-color);
+            stroke-width: 1.5;
+            stroke-linecap: round;
+            opacity: 0.4;
+        }
+
         .mid-section-divider {
             display: block;
             margin: 20px auto 40px auto; 
@@ -442,7 +457,7 @@
             padding: 20px 0;
         }
 
-        /* Линия теперь находится строго по центру (left: 50%) */
+        /* Линия находится строго по центру */
         .timeline-svg {
             position: absolute;
             top: 0;
@@ -455,7 +470,7 @@
 
         .timeline-svg path {
             fill: none;
-            stroke: var(--accent-color); /* Волнистая линия в благородном бежевом цвете */
+            stroke: var(--accent-color); 
             stroke-width: 2.5;
             stroke-linecap: round;
         }
@@ -489,7 +504,7 @@
         /* Базовые стили элемента таймлайна */
         .timeline-item {
             position: relative;
-            width: 42%; /* Карточка занимает чуть меньше половины ширины */
+            width: 42%; 
             margin-bottom: 50px;
             clear: both;
             text-align: left;
@@ -500,19 +515,18 @@
             border: 1px solid rgba(125, 107, 88, 0.1);
         }
 
-        /* Нечетные элементы — наперевес влево */
+        /* Нечетные элементы — влево */
         .timeline-item:nth-child(odd) {
             float: left;
             text-align: right;
         }
 
-        /* Четные элементы — наперевес вправо */
+        /* Четные элементы — вправо */
         .timeline-item:nth-child(even) {
             float: right;
             text-align: left;
         }
 
-        /* Очистка потоков для корректной высоты родительского блока */
         .timeline-content::after {
             content: "";
             display: table;
@@ -593,12 +607,13 @@
             margin: 20px auto;
             max-width: 90%;
             border-radius: 12px;
-            background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('dress-kod.webp');
+            background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85));
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
             border: 1px solid rgba(125, 107, 88, 0.15);
+            padding: 30px 20px;
         }
 
         .dress-code-text {
@@ -640,12 +655,6 @@
         }
         .radio-box input {
             margin-right: 10px;
-        }
-
-        hr {
-            border: 0;
-            border-top: 1px solid #eee;
-            margin: 20px 25px;
         }
     </style>
 </head>
@@ -698,7 +707,9 @@
         </section>
 
         <div class="fade-in-section">
-            <hr>
+            <svg class="custom-divider" viewBox="0 0 100 20" preserveAspectRatio="none">
+                <path d="M 0 10 C 25 20, 75 0, 100 10" />
+            </svg>
             <section class="intro-section">
                 <h2 class="script-title">Дорогие родные и близкие!</h2>
                 <p>Узнали этих карапузов?</p>
@@ -709,7 +720,9 @@
         </div>
 
         <div class="fade-in-section">
-            <hr>
+            <svg class="custom-divider" viewBox="0 0 100 20" preserveAspectRatio="none">
+                <path d="M 0 10 C 25 20, 75 0, 100 10" />
+            </svg>
             <section class="timer-section">
                 <p style="font-style: italic;">Один раз и навсегда...</p>
                 <p>Будем счастливы видеть Вас через:</p>
@@ -759,7 +772,9 @@
         </div>
 
         <div class="fade-in-section">
-            <hr>
+            <svg class="custom-divider" viewBox="0 0 100 20" preserveAspectRatio="none">
+                <path d="M 0 10 C 25 20, 75 0, 100 10" />
+            </svg>
             <section class="location-section">
                 <div class="restaurant-card">
                     <p class="city-text">г. Ош</p>
@@ -776,7 +791,9 @@
         </div>
 
         <div class="fade-in-section">
-            <hr>
+            <svg class="custom-divider" viewBox="0 0 100 20" preserveAspectRatio="none">
+                <path d="M 0 10 C 25 20, 75 0, 100 10" />
+            </svg>
             <section class="dress-code-section">
                 <h2 class="script-title">Дресс-код</h2>
                 <p class="dress-code-text">
@@ -792,7 +809,9 @@
         </div>
 
         <div class="fade-in-section">
-            <hr>
+            <svg class="custom-divider" viewBox="0 0 100 20" preserveAspectRatio="none">
+                <path d="M 0 10 C 25 20, 75 0, 100 10" />
+            </svg>
             <section class="details-section">
                 <h2 class="script-title">Хорошие слова</h2>
                 <p class="good-words-text">
@@ -803,7 +822,9 @@
         </div>
 
         <div class="fade-in-section">
-            <hr>
+            <svg class="custom-divider" viewBox="0 0 100 20" preserveAspectRatio="none">
+                <path d="M 0 10 C 25 20, 75 0, 100 10" />
+            </svg>
             <section class="form-section">
                 <h2 class="script-title">Опрос гостей</h2>
                 
@@ -832,7 +853,9 @@
         </div>
 
         <div class="fade-in-section">
-            <hr>
+            <svg class="custom-divider" viewBox="0 0 100 20" preserveAspectRatio="none">
+                <path d="M 0 10 C 25 20, 75 0, 100 10" />
+            </svg>
             <section class="contacts-section">
                 <h2 class="script-title">Контакты</h2>
                 <p style="font-size: 0.9rem; margin-bottom: 10px;">Если у вас возникнут какие-то вопросы в день мероприятия, вы можете обратиться к невесте:</p>
@@ -867,11 +890,11 @@
                 musicBtn.innerText = '🔊';
             }).catch(err => console.log("Браузер заблокировал автовоспроизведение музыки:", err));
             
-            // Первичный расчет позиции сердца сразу после открытия конверта
+            // Первичный расчет позиции сердца
             setTimeout(moveHeartAlongWave, 300);
         }
 
-        // Переключатель музыки на сайте
+        // Переключатель музыки
         musicBtn.addEventListener('click', (e) => {
             e.stopPropagation(); 
             if (music.paused) {
@@ -881,12 +904,10 @@
                 });
             } else {
                 music.pause();
-                musicBtn.remove(); 
                 musicBtn.classList.remove('playing'); 
                 musicBtn.innerText = '🔈';
             }
         });
-
 
         // --- СКРИПТ ПЛАВНОГО ПОЯВЛЕНИЯ БЛОКОВ ПРИ СКРОЛЛЕ ---
         document.addEventListener("DOMContentLoaded", function() {
@@ -911,63 +932,69 @@
             faders.forEach(fader => {
                 appearOnScroll.observe(fader);
             });
+            
+            // Запуск обновления таймера
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
         });
 
-
-        // --- ТАЙМЕР ---
-        const weddingDate = new Date("August 6, 2026 17:00:00").getTime();
-
-        const timerInterval = setInterval(function() {
+        // --- ТАЙМЕР ОБРАТНОГО ОТСЧЕТА ---
+        function updateCountdown() {
+            const weddingDate = new Date("August 6, 2026 16:00:00").getTime();
             const now = new Date().getTime();
-            const distance = weddingDate - now;
+            const diff = weddingDate - now;
 
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
-            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
-            document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
-            document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
-
-            if (distance < 0) {
-                clearInterval(timerInterval);
-                document.getElementById("countdown-timer").innerHTML = "<h3>Этот счастливый день настал!</h3>";
+            if (diff <= 0) {
+                document.getElementById('countdown-timer').innerHTML = "<h3>Этот счастливый день настал!</h3>";
+                return;
             }
-        }, 1000);
 
-        // --- ДИНАМИЧЕСКИЙ ТРЕКИНГ СЕРДЦА ПО ЦЕНТРАЛЬНОЙ ВОЛНЕ ---
-        const timelineSection = document.getElementById('wedding-timeline');
-        const wavePath = document.getElementById('wave-path');
-        const movingHeart = document.getElementById('moving-heart');
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
+            document.getElementById('days').innerText = days < 10 ? '0' + days : days;
+            document.getElementById('hours').innerText = hours < 10 ? '0' + hours : hours;
+            document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
+        }
+
+        // --- ДИНАМИЧЕСКОЕ ДВИЖЕНИЕ СЕРДЦА ПО ЛИНИИ ---
         function moveHeartAlongWave() {
-            if (!wavePath || !movingHeart || !timelineSection) return;
+            const path = document.getElementById('wave-path');
+            const heart = document.getElementById('moving-heart');
+            const container = document.getElementById('wedding-timeline');
+            
+            if (!path || !heart || !container) return;
 
-            const sectionRect = timelineSection.getBoundingClientRect();
-            const pathLength = wavePath.getTotalLength();
+            const rect = container.getBoundingClientRect();
+            const pathLength = path.getTotalLength();
+            
+            // Вычисляем процент прокрутки внутри контейнера таймлайна
+            const startScroll = window.scrollY + rect.top - window.innerHeight;
+            const endScroll = window.scrollY + rect.bottom - window.innerHeight / 2;
+            const currentScroll = window.scrollY;
 
-            // Рассчитываем, насколько проскроллен блок относительно экрана
-            const viewHeight = window.innerHeight;
-            const startScroll = sectionRect.top - viewHeight;
-            const endScroll = sectionRect.bottom - viewHeight / 2;
+            let percentage = (currentScroll - startScroll) / (endScroll - startScroll);
+            if (percentage < 0) percentage = 0;
+            if (percentage > 1) percentage = 1;
 
-            let progress = ( -startScroll ) / ( endScroll - startScroll );
-            progress = Math.max(0, Math.min(1, progress)); // Ограничиваем от 0 до 1
-
-            // Находим точку на SVG-пути, соответствующую текущему прогрессу скролла
-            const currentPoint = wavePath.getPointAtLength(progress * pathLength);
-
-            // Смещаем сердце относительно левого или центрального положения оси
-            const isMobile = window.innerWidth <= 450;
-            const originX = isMobile ? 25 : timelineSection.offsetWidth / 2;
-
-            // Корректируем X-координату на основе смещения внутри самого SVG (viewBox="0 0 40 600", центр на 20)
-            const computedX = originX + (currentPoint.x - 20);
-
-            movingHeart.style.top = `${currentPoint.y}px`;
-            movingHeart.style.left = `${computedX}px`;
+            // Получаем координаты точки на SVG-кривой
+            const point = path.getPointAtLength(percentage * pathLength);
+            
+            // Корректируем позицию сердца на мобильных экранах (смещение влево)
+            if (window.innerWidth <= 450) {
+                heart.style.left = `25px`;
+                heart.style.transform = `translate(-50%, -50%)`;
+            } else {
+                // На десктопе центрируем по X
+                heart.style.left = `50%`;
+                heart.style.transform = `translate(calc(-50% + ${point.x - 20}px), -50%)`;
+            }
+            
+            // Смещение по Y относительно SVG
+            heart.style.top = `${point.y}px`;
         }
 
         window.addEventListener('scroll', moveHeartAlongWave);
