@@ -13,7 +13,7 @@
             --bg-color: #f7f5f2;
             --text-color: #2c2c2c;
             --accent-color: #7d6b58;
-            --heart-color: #b85d5d; /* Красивый благородный оттенок для движущегося сердца */
+            --heart-color: #b85d5d; 
             --polaroid-shadow: rgba(0, 0, 0, 0.15);
         }
 
@@ -29,14 +29,14 @@
             color: var(--text-color);
             line-height: 1.6;
             overflow-x: hidden;
-            overflow-y: hidden; /* Блокируем скролл до открытия конверта */
+            overflow-y: hidden; 
         }
 
         body.envelope-opened {
             overflow-y: auto;
         }
 
-        /* --- НОВЫЙ АНИМИРОВАННЫЙ ЭКРАН С КОНВЕРТОМ --- */
+        /* --- АНИМИРОВАННЫЙ ЭКРАН С КОНВЕРТОМ --- */
         #envelope-screen {
             position: fixed;
             top: 0;
@@ -435,71 +435,117 @@
             color: #777;
         }
         
-        /* --- ОБНОВЛЕННЫЙ ТАЙМЛАЙН С ВОЛНИСТОЙ ЛИНИЕЙ И БОЛЬШИМ СЕРДЦЕМ --- */
+        /* --- ОБНОВЛЕННЫЙ ТАЙМЛАЙН: ШАХМАТНЫЙ ПОРЯДОК С ЦЕНТРАЛЬНОЙ ЛИНИЕЙ --- */
         .timeline-container {
             position: relative;
-            margin-top: 35px;
-            padding: 10px 0;
+            margin-top: 45px;
+            padding: 20px 0;
         }
 
-        /* SVG контейнер для гибкой волнистой линии */
+        /* Линия теперь находится строго по центру (left: 50%) */
         .timeline-svg {
             position: absolute;
             top: 0;
-            left: 20px;
-            width: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
             height: 100%;
             z-index: 1;
         }
 
         .timeline-svg path {
             fill: none;
-            stroke: var(--accent-color);
-            stroke-width: 2;
+            stroke: var(--accent-color); /* Волнистая линия в благородном бежевом цвете */
+            stroke-width: 2.5;
             stroke-linecap: round;
         }
 
-        /* УВЕЛИЧЕННОЕ скользящее сердечко */
+        /* Сердце скользит точно по центральной оси */
         .timeline-heart {
             position: absolute;
-            left: 20px;
+            left: 50%;
             top: 0;
             width: 40px;  
             height: 40px; 
             color: var(--heart-color);
-            font-size: 2.3rem; /* Крупный размер самого эмодзи сердца */
+            font-size: 2.3rem; 
             line-height: 40px;
             text-align: center;
             z-index: 10;
             background-color: transparent;
-            transform: translate(-50%, -50%); /* Центрирование четко по оси */
+            transform: translate(-50%, -50%); 
             pointer-events: none;
             user-select: none;
             filter: drop-shadow(0 2px 5px rgba(0,0,0,0.15));
         }
 
+        /* Контейнер для карточек */
         .timeline-content {
-            text-align: left;
-            padding-left: 65px; /* Отступ текста от волнистой линии */
             position: relative;
             z-index: 2;
+            width: 100%;
         }
 
+        /* Базовые стили элемента таймлайна */
         .timeline-item {
-            margin-bottom: 40px;
             position: relative;
+            width: 42%; /* Карточка занимает чуть меньше половины ширины */
+            margin-bottom: 50px;
+            clear: both;
+            text-align: left;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.03);
+            border: 1px solid rgba(125, 107, 88, 0.1);
+        }
+
+        /* Нечетные элементы — наперевес влево */
+        .timeline-item:nth-child(odd) {
+            float: left;
+            text-align: right;
+        }
+
+        /* Четные элементы — наперевес вправо */
+        .timeline-item:nth-child(even) {
+            float: right;
+            text-align: left;
+        }
+
+        /* Очистка потоков для корректной высоты родительского блока */
+        .timeline-content::after {
+            content: "";
+            display: table;
+            clear: both;
         }
         
         .timeline-time {
-            font-weight: 600;
+            font-weight: 700;
             color: var(--accent-color);
-            font-size: 1.05rem;
-            display: inline-block;
-            margin-right: 5px;
+            font-size: 1.1rem;
+            display: block;
+            margin-bottom: 5px;
         }
         .timeline-desc {
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: #444;
+        }
+
+        /* Адаптивность под мобильные экраны */
+        @media (max-width: 450px) {
+            .timeline-svg {
+                left: 25px;
+                transform: none;
+            }
+            .timeline-heart {
+                left: 25px;
+            }
+            .timeline-item {
+                width: 80%;
+                float: right !important;
+                text-align: left !important;
+                margin-bottom: 35px;
+            }
         }
 
         .btn {
@@ -693,19 +739,19 @@
                     <div class="timeline-content">
                         <div class="timeline-item">
                             <span class="timeline-time">16:00</span>
-                            <span class="timeline-desc">— <strong>Свадебная фотосессия.</strong> Время для создания первых незабываемых кадров нашей семейной истории.</span>
+                            <span class="timeline-desc"><strong>Свадебная фотосессия.</strong> Время для создания первых незабываемых кадров нашей семейной истории.</span>
                         </div>
                         <div class="timeline-item">
                             <span class="timeline-time">17:00</span>
-                            <span class="timeline-desc">— <strong>Встреча дорогих гостей.</strong> Welcome-зона: обнимаемся, знакомимся и настраиваемся на праздничную атмосферу.</span>
+                            <span class="timeline-desc"><strong>Встреча гостей.</strong> Welcome-зона: обнимаемся, знакомимся и настраиваемся на праздничную атмосферу.</span>
                         </div>
                         <div class="timeline-item">
                             <span class="timeline-time">17:30</span>
-                            <span class="timeline-desc">— <strong>Выездная регистрация.</strong> Самый трогательный момент нашего дня. Время для искренних клятв и главных слов.</span>
+                            <span class="timeline-desc"><strong>Выездная регистрация.</strong> Самый трогательный момент нашего дня. Время для искренних клятв.</span>
                         </div>
                         <div class="timeline-item">
                             <span class="timeline-time">18:00</span>
-                            <span class="timeline-desc">— <strong>Торжественный банкет.</strong> Зажигаем! Время теплых поздравлений, веселья, сюрпризов и танцев до упаду.</span>
+                            <span class="timeline-desc"><strong>Торжественный банкет.</strong> Зажигаем! Время теплых поздравлений, веселья и танцев до упаду.</span>
                         </div>
                     </div>
                 </div>
@@ -835,6 +881,7 @@
                 });
             } else {
                 music.pause();
+                musicBtn.remove(); 
                 musicBtn.classList.remove('playing'); 
                 musicBtn.innerText = '🔈';
             }
@@ -890,48 +937,41 @@
             }
         }, 1000);
 
-
-        // --- УМНАЯ АНИМАЦИЯ ДВИЖЕНИЯ СЕРДЕЧКА ПО SVG ПУТИ ---
-        window.addEventListener('scroll', moveHeartAlongWave);
-        window.addEventListener('resize', moveHeartAlongWave);
+        // --- ДИНАМИЧЕСКИЙ ТРЕКИНГ СЕРДЦА ПО ЦЕНТРАЛЬНОЙ ВОЛНЕ ---
+        const timelineSection = document.getElementById('wedding-timeline');
+        const wavePath = document.getElementById('wave-path');
+        const movingHeart = document.getElementById('moving-heart');
 
         function moveHeartAlongWave() {
-            const timeline = document.getElementById('wedding-timeline');
-            const heart = document.getElementById('moving-heart');
-            const path = document.getElementById('wave-path');
-            const svg = document.getElementById('svg-line');
+            if (!wavePath || !movingHeart || !timelineSection) return;
 
-            if (!timeline || !heart || !path || !svg) return;
+            const sectionRect = timelineSection.getBoundingClientRect();
+            const pathLength = wavePath.getTotalLength();
 
-            const rect = timeline.getBoundingClientRect();
+            // Рассчитываем, насколько проскроллен блок относительно экрана
             const viewHeight = window.innerHeight;
+            const startScroll = sectionRect.top - viewHeight;
+            const endScroll = sectionRect.bottom - viewHeight / 2;
 
-            // Сердечко начинает движение, когда верх блока доходит до середины экрана
-            // И заканчивает, когда низ блока поднимается до середины экрана
-            const startAnchor = viewHeight * 0.6;
-            const endAnchor = viewHeight * 0.4;
+            let progress = ( -startScroll ) / ( endScroll - startScroll );
+            progress = Math.max(0, Math.min(1, progress)); // Ограничиваем от 0 до 1
 
-            let progress = (startAnchor - rect.top) / (rect.height - (startAnchor - endAnchor));
-            
-            // Загоняем прогресс в жесткие рамки [0, 1]
-            if (progress < 0) progress = 0;
-            if (progress > 1) progress = 1;
+            // Находим точку на SVG-пути, соответствующую текущему прогрессу скролла
+            const currentPoint = wavePath.getPointAtLength(progress * pathLength);
 
-            // Считываем точную длину кривой и координаты точки на ней в текущий момент
-            const pathLength = path.getTotalLength();
-            const point = path.getPointAtLength(progress * pathLength);
+            // Смещаем сердце относительно левого или центрального положения оси
+            const isMobile = window.innerWidth <= 450;
+            const originX = isMobile ? 25 : timelineSection.offsetWidth / 2;
 
-            const svgRect = svg.getBoundingClientRect();
-            const containerRect = timeline.getBoundingClientRect();
+            // Корректируем X-координату на основе смещения внутри самого SVG (viewBox="0 0 40 600", центр на 20)
+            const computedX = originX + (currentPoint.x - 20);
 
-            // Пересчитываем относительные координаты SVG в пиксели родительского контейнера
-            const targetX = svgRect.left - containerRect.left + (point.x * (svgRect.width / 40));
-            const targetY = svgRect.top - containerRect.top + (point.y * (svgRect.height / 600));
-
-            // Перемещаем сердце
-            heart.style.left = `${targetX}px`;
-            heart.style.top = `${targetY}px`;
+            movingHeart.style.top = `${currentPoint.y}px`;
+            movingHeart.style.left = `${computedX}px`;
         }
+
+        window.addEventListener('scroll', moveHeartAlongWave);
+        window.addEventListener('resize', moveHeartAlongWave);
     </script>
 </body>
 </html>
