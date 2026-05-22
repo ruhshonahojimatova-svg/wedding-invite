@@ -972,95 +972,48 @@
 
         fadeSections.forEach(section => observer.observe(section));
 
-
-               // --- ОТПРАВКА В TELEGRAM ---
-
-        const TELEGRAM_BOT_TOKEN = '8556775064:AAEzpPRZOiWtKlgTauNIEkYQ6E9vYDFKv6Q'; 
-
+       // ====================== ОТПРАВКА В TELEGRAM ======================
+        const TELEGRAM_BOT_TOKEN = '8556775064:AAEzpPRZOiWtKlgTauNIEkYQ6E9vYDFKv6Q';
         const TELEGRAM_CHAT_ID = '1391803164';
 
-
-
         document.getElementById('rsvp-form').addEventListener('submit', function(e) {
-
             e.preventDefault();
 
-
-
-            const name = document.getElementById('guest-name').value;
-
+            const name = document.getElementById('guest-name').value.trim();
             const attendance = document.querySelector('input[name="attendance"]:checked').value;
+            const musicInput = document.getElementById('guest-music').value.trim() || 'Не указано';
 
-            const musicInput = document.getElementById('guest-music').value || 'Не указано';
+            let message = `
+🔔 <b>Новый ответ на приглашение!</b>\n\n
+👤 <b>Имя:</b> ${name}\n
+📍 <b>Присутствие:</b> ${attendance}\n
+🎵 <b>Пожелание по музыке:</b> ${musicInput}
+            `;
 
-
-
-            // Изменено на HTML разметку для стабильности при вводе спецсимволов гостями
-
-            let message = 🔔 <b>Новый ответ на приглашение!</b>\n\n;
-
-            message += 👤 <b>Имя:</b> ${name}\n;
-
-            message += 📅 <b>Присутствие:</b> ${attendance}\n;
-
-            message += 🎵 <b>Трек на танцпол:</b> ${musicInput};
-
-
-
-            const url = https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage;
-
-
+            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
 
             fetch(url, {
-
                 method: 'POST',
-
                 headers: { 'Content-Type': 'application/json' },
-
                 body: JSON.stringify({
-
                     chat_id: TELEGRAM_CHAT_ID,
-
                     text: message,
-
                     parse_mode: 'HTML'
-
                 })
-
             })
-
             .then(response => {
-
-                if(response.ok) {
-
-                    alert('Спасибо! Ваш ответ успешно отправлен.');
-
+                if (response.ok) {
+                    alert('✅ Спасибо! Ваш ответ успешно отправлен.');
                     document.getElementById('rsvp-form').reset();
-
                 } else {
-
-                    alert('Что-то пошло не так. Попробуйте еще раз.');
-
+                    alert('⚠️ Что-то пошло не так. Попробуйте ещё раз.');
                 }
-
             })
-
             .catch(error => {
-
                 console.error('Ошибка:', error);
-
-                alert('Ошибка соединения при отправке.');
-
+                alert('❌ Ошибка соединения. Проверьте интернет.');
             });
-
         });
-
-    </script>
-
-</body>
-
-
-
     </script>
 </body>
 </html>
