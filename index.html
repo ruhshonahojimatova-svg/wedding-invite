@@ -1,82 +1,131 @@
-<script>
-        // --- КОНФИГУРАЦИЯ TELEGRAM ---
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приглашение на свадьбу Мухаммадазиза и Рухшоны</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Montserrat:wght@300;400;600&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-color: #f7f5f2;
+            --text-color: #2c2c2c;
+            --accent-color: #7d6b58;
+            --heart-color: #b85d5d;
+            --polaroid-shadow: rgba(0, 0, 0, 0.15);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; overflow-x: hidden; overflow-y: hidden; }
+        body.envelope-opened { overflow-y: auto; }
+
+        #envelope-screen {
+            position: fixed; top: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 550px; height: 100vh;
+            background: linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15)), url('фон.png') no-repeat center center;
+            background-size: cover; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 2000;
+            transition: transform 0.9s cubic-bezier(0.77, 0, 0.175, 1); text-align: center; padding: 20px; box-shadow: 0 0 50px rgba(0, 0, 0, 0.12);
+        }
+        #envelope-screen.opened { transform: translate(-50%, -100vh); pointer-events: none; }
+
+        .envelope-title { font-size: 1.2rem; text-transform: uppercase; letter-spacing: 3px; color: var(--accent-color); margin-bottom: 40px; font-weight: 700; background-color: rgba(255, 255, 255, 0.85); padding: 8px 16px; border-radius: 20px; }
+        .envelope-wrapper { position: relative; width: 300px; height: 190px; background-color: #ffffff; border-radius: 4px; box-shadow: 0 15px 35px rgba(0,0,0,0.15); cursor: pointer; display: flex; justify-content: center; align-items: center; perspective: 1000px; }
+        .envelope-wrapper::before { content: ''; position: absolute; top: 0; left: 0; width: 0; height: 0; border-left: 150px solid transparent; border-right: 150px solid transparent; border-top: 110px solid #c5b49f; transform-origin: top; transition: transform 0.5s ease; z-index: 3; }
+        .envelope-wrapper:hover::before { transform: rotateX(160deg) translateY(-10px); z-index: 1; }
+        .wax-seal { position: absolute; width: 65px; height: 65px; background: radial-gradient(#c5b49f, #ab9a85); border-radius: 50%; z-index: 4; display: flex; justify-content: center; align-items: center; color: #fdfbf7; font-size: 1.8rem; transition: transform 0.3s; }
+        .envelope-hint { margin-top: 40px; font-size: 0.85rem; letter-spacing: 2px; color: var(--accent-color); animation: pulseText 2.5s infinite; background-color: rgba(255, 255, 255, 0.85); padding: 6px 14px; border-radius: 20px; }
+        @keyframes pulseText { 0%, 100% { opacity: 0.4; transform: scale(0.98); } 50% { opacity: 1; transform: scale(1); } }
+
+        .container { max-width: 480px; margin: 0 auto; background: #ffffff; min-height: 100vh; box-shadow: 0 0 20px rgba(0,0,0,0.05); display: none; padding-bottom: 50px; }
+        body.envelope-opened .container { display: block; }
+
+        .script-title { font-family: 'Caveat', cursive; font-size: 3.5rem; color: var(--accent-color); text-align: center; font-weight: 400; margin-bottom: 15px; }
+        .music-control { position: fixed; top: 20px; right: 20px; z-index: 1000; width: 45px; height: 45px; border-radius: 50%; background: rgba(255, 255, 255, 0.9); border: 1px solid var(--accent-color); cursor: pointer; display: none; align-items: center; justify-content: center; }
+        .fade-in-section { opacity: 0; transform: translateY(30px); transition: opacity 1s ease-out, transform 1s ease-out; }
+        .fade-in-section.is-visible { opacity: 1; transform: translateY(0); }
+        .btn { display: inline-block; background: var(--text-color); color: #fff; padding: 12px 30px; text-decoration: none; border-radius: 25px; border: none; cursor: pointer; width: 100%; text-align: center; }
+        .input-text { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; margin-top: 8px; }
+        .form-group { margin-bottom: 20px; padding: 0 25px; }
+    </style>
+</head>
+<body>
+
+    <div id="envelope-screen" onclick="openEnvelope()">
+        <div class="envelope-title">Вам пришло приглашение</div>
+        <div class="envelope-wrapper">
+            <div class="wax-seal">❀</div>
+        </div>
+        <div class="envelope-hint">Нажмите на конверт, чтобы открыть</div>
+    </div>
+
+    <audio id="bg-music" src="музыка.mp3" loop></audio>
+    <button class="music-control" id="music-btn">🔈</button>
+
+    <div class="container">
+        <section style="padding: 40px 25px;">
+            <h2 class="script-title">Дорогие гости!</h2>
+            <p style="text-align: center;">Приглашаем вас на наш праздник.</p>
+        </section>
+
+        <section class="form-section">
+            <h2 class="script-title">Опрос гостей</h2>
+            <form id="rsvp-form">
+                <div class="form-group">
+                    <label>Ваши ФИО:</label>
+                    <input type="text" id="guest-name" class="input-text" required placeholder="Введите имя">
+                </div>
+                <div class="form-group">
+                    <label>Присутствие:</label>
+                    <select id="attendance" class="input-text">
+                        <option>Приду с удовольствием</option>
+                        <option>Буду со своей парой</option>
+                        <option>К сожалению, не смогу</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Пожелания по музыке:</label>
+                    <input type="text" id="guest-music" class="input-text" placeholder="Ваша любимая песня">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn">Отправить ответ</button>
+                </div>
+            </form>
+        </section>
+    </div>
+
+    <script>
         const TELEGRAM_BOT_TOKEN = '8556775064:AAEzpPRZOiWtKlgTauNIEkYQ6E9vYDFKv6Q';
         const TELEGRAM_CHAT_ID = '1391803164';
 
-        // --- ЛОГИКА ОТПРАВКИ В TELEGRAM ---
+        // Логика Telegram
         document.getElementById('rsvp-form').addEventListener('submit', function(e) {
             e.preventDefault();
-
-            const name = document.getElementById('guest-name').value;
-            const attendance = document.querySelector('input[name="attendance"]:checked').value;
-            const music = document.getElementById('guest-music').value;
-
-            const text = `Новый ответ на приглашение:\n\nИмя: ${name}\nСтатус: ${attendance}\nПесня: ${music || 'Не указано'}`;
-
+            const text = `Новый ответ: ${document.getElementById('guest-name').value}, Статус: ${document.getElementById('attendance').value}, Музыка: ${document.getElementById('guest-music').value}`;
+            
             fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    chat_id: TELEGRAM_CHAT_ID,
-                    text: text
-                })
-            })
-            .then(response => {
-                if (response.ok) {
-                    alert('Спасибо! Ваш ответ успешно отправлен.');
-                    document.getElementById('rsvp-form').reset();
-                } else {
-                    alert('Произошла ошибка при отправке. Попробуйте еще раз.');
-                }
-            })
-            .catch(error => alert('Ошибка соединения: ' + error));
-        });
-
-        // --- ОСТАЛЬНАЯ ЛОГИКА (Конверт, Музыка, Анимации) ---
-        const envelopeScreen = document.getElementById('envelope-screen');
-        const music = document.getElementById('bg-music');
-        const musicBtn = document.getElementById('music-btn');
-
-        function openEnvelope() {
-            document.body.classList.add('envelope-opened');
-            envelopeScreen.classList.add('opened');
-            music.play().catch(e => console.log("Музыка ожидает взаимодействия пользователя"));
-            musicBtn.style.display = 'flex';
-        }
-
-        musicBtn.addEventListener('click', () => {
-            if (music.paused) {
-                music.play();
-                musicBtn.classList.add('playing');
-                musicBtn.innerText = '🔊';
-            } else {
-                music.pause();
-                musicBtn.classList.remove('playing');
-                musicBtn.innerText = '🔇';
-            }
-        });
-
-        // Анимация появления элементов
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) entry.target.classList.add('is-visible');
+                body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: text })
+            }).then(() => {
+                alert('Спасибо! Ваш ответ отправлен.');
+                document.getElementById('rsvp-form').reset();
             });
         });
-        document.querySelectorAll('.fade-in-section').forEach(s => observer.observe(s));
 
-        // Таймер обратного отсчета
-        function updateTimer() {
-            const weddingDate = new Date('August 6, 2026 17:00:00').getTime();
-            const now = new Date().getTime();
-            const diff = weddingDate - now;
-
-            if (diff > 0) {
-                document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
-                document.getElementById('hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                document.getElementById('minutes').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-                document.getElementById('seconds').innerText = Math.floor((diff % (1000 * 60)) / 1000);
-            }
+        // Логика конверта
+        function openEnvelope() {
+            document.body.classList.add('envelope-opened');
+            document.getElementById('envelope-screen').classList.add('opened');
+            document.getElementById('bg-music').play();
+            document.getElementById('music-btn').style.display = 'flex';
         }
-        setInterval(updateTimer, 1000);
-        updateTimer();
+
+        // Анимация при скролле
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('is-visible'); });
+        });
+        document.querySelectorAll('.fade-in-section').forEach(s => observer.observe(s));
     </script>
+</body>
+</html>
