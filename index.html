@@ -175,6 +175,15 @@
             display: block;
         }
 
+        /* --- Стили для декоративного изображения колец --- */
+.mid-section-divider {
+    display: block;
+    margin: 0 auto 40px auto; /* Центрируем по горизонтали и делаем отступ 40px снизу */
+    max-width: 100px;         /* Ограничиваем максимальную ширину, чтобы кольца аккуратно смотрелись на мобильных */
+    height: auto;             /* Сохраняем пропорции картинки */
+    opacity: 0.7;             /* Делаем картинку чуть мягче (по желанию можно убрать эту строку) */
+}
+
         /* --- КНОПКА МУЗЫКИ --- */
         .music-control {
             position: fixed;
@@ -576,6 +585,8 @@
                     <div class="timer-block"><span class="timer-val" id="minutes">00</span><span class="timer-label">минут</span></div>
                     <div class="timer-block"><span class="timer-val" id="seconds">00</span><span class="timer-label">секунд</span></div>
                 </div>
+
+                <img src="ring.jpg" alt="Обручальные кольца" class="mid-section-divider">
 
                 <h2 class="script-title" style="margin-top: 40px;">Программа дня</h2>
                 <div class="timeline">
