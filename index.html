@@ -176,13 +176,46 @@
         }
 
         /* --- Стили для декоративного изображения колец --- */
-.mid-section-divider {
-    display: block;
-    margin: 0 auto 40px auto; /* Центрируем по горизонтали и делаем отступ 40px снизу */
-    max-width: 160px;         /* Ограничиваем максимальную ширину, чтобы кольца аккуратно смотрелись на мобильных */
-    height: auto;             /* Сохраняем пропорции картинки */
-    opacity: 0.8;             /* Делаем картинку чуть мягче (по желанию можно убрать эту строку) */
-}
+        .mid-section-divider {
+            display: block;
+            margin: 20px auto 40px auto; 
+            max-width: 160px;         
+            height: auto;             
+            opacity: 0.85;             
+        }
+
+        /* --- Элегантная рамка для адреса ресторана --- */
+        .restaurant-card {
+            border: 1px solid var(--accent-color);
+            outline: 3px solid var(--accent-color);
+            outline-offset: -8px;
+            padding: 30px 20px;
+            margin: 20px auto 25px auto;
+            max-width: 90%;
+            background-color: #ffffff;
+        }
+
+        .restaurant-card .city-text {
+            font-size: 0.9rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #888;
+            margin-bottom: 5px;
+        }
+
+        .restaurant-card .restaurant-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .restaurant-card .restaurant-address {
+            font-size: 0.9rem;
+            color: #555;
+            font-style: italic;
+        }
 
         /* --- КНОПКА МУЗЫКИ --- */
         .music-control {
@@ -445,6 +478,7 @@
         }
         .btn-2gis {
             background: #2ea300;
+            margin-top: 15px;
         }
         .btn-2gis:hover {
             background: #258200;
@@ -613,9 +647,12 @@
         <div class="fade-in-section">
             <hr>
             <section class="location-section">
-                <p><strong>г. Ош</strong></p>
-                <p style="margin-top: 5px; font-weight: 600;">Ресторан «НООРУЗ»</p>
-                <p style="font-size: 0.9rem; color: #555;">Улица Аскар Шакиров, 240а/1 (2 этаж)</p>
+                
+                <div class="restaurant-card">
+                    <p class="city-text">г. Ош</p>
+                    <h3 class="restaurant-name">Ресторан «НООРУЗ»</h3>
+                    <p class="restaurant-address">Улица Аскар Шакиров, 240а/1 (2 этаж)</p>
+                </div>
                 
                 <a href="https://2gis.kg/osh/firm/70000001040806856" target="_blank" class="btn btn-2gis">Открыть в 2ГИС</a>
 
@@ -698,7 +735,7 @@
         const music = document.getElementById('bg-music');
         const musicBtn = document.getElementById('music-btn');
 
-        // Функция открытия конверта при клике на ЛЮБУЮ область стартового экрана
+        // Функция открытия конверта
         function openEnvelope() {
             document.body.classList.add('envelope-opened');
             envelopeScreen.classList.add('opened');
