@@ -36,7 +36,7 @@
             overflow-y: auto;
         }
 
-        /* --- НОВЫЙ АНИМИРОВАННЫЙ ЭКРАН С КОНВЕРТОМ --- */
+        /* --- ОБНОВЛЕННЫЙ ЭКРАН С КОНВЕРТОМ (ДОБАВЛЕН ФОН) --- */
         #envelope-screen {
             position: fixed;
             top: 0;
@@ -45,7 +45,9 @@
             width: 100%;
             max-width: 550px;
             height: 100vh;
-            background: linear-gradient(135deg, #e0e5ec, #f0f4f8);
+            /* Установка изображения фон.png на задний план конверта */
+            background: linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.15)), url('фон.png') no-repeat center center; /* Путь к фону конверта */
+            background-size: cover;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -63,12 +65,17 @@
         }
 
         .envelope-title {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             text-transform: uppercase;
             letter-spacing: 3px;
             color: var(--accent-color);
             margin-bottom: 40px;
-            font-weight: 600;
+            font-weight: 700;
+            /* Белая полупрозрачная подложка, чтобы текст не терялся на пёстром фоне */
+            background-color: rgba(255, 255, 255, 0.85);
+            padding: 8px 16px;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
         .envelope-wrapper {
@@ -77,7 +84,7 @@
             height: 190px;
             background-color: #ffffff;
             border-radius: 4px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
             cursor: pointer;
             display: flex;
             justify-content: center;
@@ -145,6 +152,12 @@
             text-transform: uppercase;
             color: var(--accent-color);
             animation: pulseText 2.5s infinite;
+            /* Читаемая подложка для подсказки снизу */
+            background-color: rgba(255, 255, 255, 0.85);
+            padding: 6px 14px;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            font-weight: 600;
         }
 
         @keyframes pulseText {
@@ -364,7 +377,7 @@
             z-index: 2;
         }
 
-        /* --- НОВЫЙ ИНТЕРЕСНЫЙ МУЛЬТЯШНЫЙ КАЛЕНДАРЬ --- */
+        /* --- МУЛЬТЯШНЫЙ КАЛЕНДАРЬ --- */
         .calendar-container {
             margin-top: 30px;
             padding: 20px;
@@ -381,7 +394,7 @@
             display: grid;
             grid-template-columns: repeat(7, 1fr);
             gap: 12px 6px;
-            font-family: 'Nunito', sans-serif; /* Более мягкий "детский/мультяшный" шрифт */
+            font-family: 'Nunito', sans-serif;
             font-size: 1rem;
             margin-top: 20px;
         }
@@ -414,7 +427,6 @@
             color: var(--accent-color);
         }
         
-        /* Стилизация дня свадьбы с красивым контурным сердцем */
         .calendar-day.wedding-date {
             color: var(--heart-color);
             font-weight: 900;
@@ -423,7 +435,6 @@
             z-index: 5;
         }
         
-        /* Рисуем аккуратное полое сердечко вокруг цифры */
         .calendar-day.wedding-date::before {
             content: '♡';
             position: absolute;
@@ -481,14 +492,13 @@
             color: #777;
         }
         
-        /* --- ОБНОВЛЕННЫЙ ТАЙМЛАЙН С ВОЛНИСТОЙ ЛИНИЕЙ И БОЛЬШИМ СЕРДЦЕМ --- */
+        /* --- ТАЙМЛАЙН С ВОЛНИСТОЙ ЛИНИЕЙ --- */
         .timeline-container {
             position: relative;
             margin-top: 35px;
             padding: 10px 0;
         }
 
-        /* SVG контейнер для гибкой волнистой линии */
         .timeline-svg {
             position: absolute;
             top: 0;
@@ -505,7 +515,6 @@
             stroke-linecap: round;
         }
 
-        /* УВЕЛИЧЕННОЕ скользящее сердечко */
         .timeline-heart {
             position: absolute;
             left: 20px;
@@ -513,12 +522,12 @@
             width: 40px;  
             height: 40px; 
             color: var(--heart-color);
-            font-size: 2.3rem; /* Крупный размер самого эмодзи сердца */
+            font-size: 2.3rem;
             line-height: 40px;
             text-align: center;
             z-index: 10;
             background-color: transparent;
-            transform: translate(-50%, -50%); /* Центрирование четко по оси */
+            transform: translate(-50%, -50%);
             pointer-events: none;
             user-select: none;
             filter: drop-shadow(0 2px 5px rgba(0,0,0,0.15));
@@ -526,7 +535,7 @@
 
         .timeline-content {
             text-align: left;
-            padding-left: 65px; /* Отступ текста от волнистой линии */
+            padding-left: 65px;
             position: relative;
             z-index: 2;
         }
@@ -607,12 +616,10 @@
             font-weight: 500;
         }
 
-        /* --- СТИЛИ ДЛЯ СЕКЦИИ "ХОРОШИЕ СЛОВА" С КАРТИНКОЙ НА ФОНЕ --- */
         .details-section {
             margin: 20px auto;
             max-width: 90%;
             border-radius: 12px;
-            /* Наложение полупрозрачного белого градиента поверх фонового изображения webp */
             background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('фонхорошихслов.webp');
             background-size: cover;
             background-position: center;
@@ -890,94 +897,85 @@
         musicBtn.addEventListener('click', (e) => {
             e.stopPropagation(); 
             if (music.paused) {
-                music.play().then(() => {
-                    musicBtn.classList.add('playing');
-                    musicBtn.innerText = '🔊';
-                });
+                music.play();
+                musicBtn.classList.add('playing');
+                musicBtn.innerText = '🔊';
             } else {
                 music.pause();
-                musicBtn.classList.remove('playing'); 
+                musicBtn.classList.remove('playing');
                 musicBtn.innerText = '🔈';
             }
         });
 
-
-        // --- СКРИПТ ПЛАВНОГО ПОЯВЛЕНИЯ БЛОКОВ ПРИ СКРОЛЛЕ ---
-        document.addEventListener("DOMContentLoaded", function() {
-            const faders = document.querySelectorAll('.fade-in-section');
+        // Функция анимации сердца вдоль волнистой линии (timeline)
+        function moveHeartAlongWave() {
+            const path = document.getElementById('wave-path');
+            const heart = document.getElementById('moving-heart');
+            const timelineContainer = document.getElementById('wedding-timeline');
             
-            const appearOptions = {
-                threshold: 0.15,
-                rootMargin: "0px 0px -50px 0px"
-            };
+            if (!path || !heart || !timelineContainer) return;
 
-            const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
-                entries.forEach(entry => {
-                    if (!entry.isIntersecting) {
-                        return;
-                    } else {
-                        entry.target.classList.add('is-visible');
-                        appearOnScroll.unobserve(entry.target);
-                    }
-                });
-            }, appearOptions);
+            const pathLength = path.getTotalLength();
+            const containerRect = timelineContainer.getBoundingClientRect();
+            const svgLine = document.getElementById('svg-line');
+            const svgRect = svgLine.getBoundingClientRect();
 
-            faders.forEach(fader => {
-                appearOnScroll.observe(fader);
+            // Вычисляем, насколько прокручена секция таймлайна
+            const scrollStart = svgRect.top + window.scrollY - window.innerHeight;
+            const scrollEnd = svgRect.bottom + window.scrollY - window.innerHeight / 2;
+            const currentScroll = window.scrollY;
+
+            let percentage = (currentScroll - scrollStart) / (scrollEnd - scrollStart);
+            percentage = Math.max(0, Math.min(1, percentage)); // Ограничиваем от 0 до 1
+
+            // Определяем точку на SVG-пути
+            const point = path.getPointAtLength(percentage * pathLength);
+
+            // Переводим координаты SVG в локальные координаты контейнера
+            const heartX = point.x + (svgRect.left - containerRect.left);
+            const heartY = point.y + (svgRect.top - containerRect.top);
+
+            heart.style.left = `${heartX}px`;
+            heart.style.top = `${heartY}px`;
+        }
+
+        // Отслеживание прокрутки для плавного появления блоков и движения сердца
+        window.addEventListener('scroll', () => {
+            moveHeartAlongWave();
+
+            // Эффект плавного появления секций (Fade-in)
+            const sections = document.querySelectorAll('.fade-in-section');
+            sections.forEach(sec => {
+                const rect = sec.getBoundingClientRect();
+                if (rect.top <= window.innerHeight * 0.85) {
+                    sec.classList.add('is-visible');
+                }
             });
         });
 
-
-        // --- ТАЙМЕР ---
-        const weddingDate = new Date("August 6, 2026 17:00:00").getTime();
-
-        const timerInterval = setInterval(function() {
+        // Таймер обратного отсчета до 6 августа 2026 года
+        function updateCountdown() {
+            const weddingDate = new Date('August 6, 2026 16:00:00').getTime();
             const now = new Date().getTime();
-            const distance = weddingDate - now;
+            const diff = weddingDate - now;
 
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            document.getElementById("days").innerText = days < 10 ? "0" + days : days;
-            document.getElementById("hours").innerText = hours < 10 ? "0" + hours : hours;
-            document.getElementById("minutes").innerText = minutes < 10 ? "0" + minutes : minutes;
-            document.getElementById("seconds").innerText = seconds < 10 ? "0" + seconds : seconds;
-
-            if (distance < 0) {
-                clearInterval(timerInterval);
-                document.getElementById("countdown-timer").innerHTML = "<h3>Этот счастливый день настал!</h3>";
+            if (diff <= 0) {
+                document.getElementById('countdown-timer').innerHTML = "<h3>Этот счастливый день настал!</h3>";
+                return;
             }
-        }, 1000);
 
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-        // --- ДВИЖЕНИЕ СЕРДЦА ПО ЛИНИИ ТАЙМЛАЙНА ---
-        const heart = document.getElementById('moving-heart');
-        const path = document.getElementById('wave-path');
-        const timelineContainer = document.getElementById('wedding-timeline');
-
-        function moveHeartAlongWave() {
-            if (!heart || !path || !timelineContainer) return;
-            
-            const rect = timelineContainer.getBoundingClientRect();
-            const windowHeight = window.innerHeight;
-
-            // Вычисляем, какая часть секции проскроллена
-            let progress = (windowHeight / 2 - rect.top) / rect.height;
-            if (progress < 0) progress = 0;
-            if (progress > 1) progress = 1;
-
-            const pathLength = path.getTotalLength();
-            const point = path.getPointAtLength(progress * pathLength);
-
-            // Обновляем позицию сердца относительно SVG
-            heart.style.left = point.x + 'px';
-            heart.style.top = point.y + 'px';
+            document.getElementById('days').innerText = days < 10 ? '0' + days : days;
+            document.getElementById('hours').innerText = hours < 10 ? '0' + hours : hours;
+            document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
+            document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
         }
-
-        window.addEventListener('scroll', moveHeartAlongWave);
-        window.addEventListener('resize', moveHeartAlongWave);
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
     </script>
 </body>
 </html>
