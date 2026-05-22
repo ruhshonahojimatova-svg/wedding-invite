@@ -895,7 +895,7 @@
 
         // Переключатель музыки на сайте
         musicBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); 
+            e.stopPropagation(); // Чтобы клик по кнопке не дублировал логику конверта
             if (music.paused) {
                 music.play();
                 musicBtn.classList.add('playing');
@@ -907,197 +907,76 @@
             }
         });
 
-        // Функция анимации сердца вдоль волнистой линии (timeline)
+        // --- ДВИЖЕНИЕ СЕРДЦА ВДОЛЬ ЛИНИИ ТАЙМЛАЙНА ---
+        const heart = document.getElementById('moving-heart');
+        const wavePath = document.getElementById('wave-path');
+        const timelineContainer = document.getElementById('wedding-timeline');
+
         function moveHeartAlongWave() {
-            const path = document.getElementById('wave-path');
-            const heart = document.getElementById('moving-heart');
-            const timelineContainer = document.getElementById('wedding-timeline');
+            if (!wavePath || !heart || !timelineContainer) return;
             
-            if (!path || !heart || !timelineContainer) return;
+            const rect = timelineContainer.getBoundingClientRect();
+            const viewHeight = window.innerHeight;
 
-            const pathLength = path.getTotalLength();
-            const containerRect = timelineContainer.getBoundingClientRect();
-            const svgLine = document.getElementById('svg-line');
-            const svgRect = svgLine.getBoundingClientRect();
+            // Вычисляем, насколько проскроллен блок относительно экрана
+            let progress = (viewHeight / 2 - rect.top) / rect.height;
+            if (progress < 0) progress = 0;
+            if (progress > 1) progress = 1;
 
-            // Вычисляем, насколько прокручена секция таймлайна
-            const scrollStart = svgRect.top + window.scrollY - window.innerHeight;
-            const scrollEnd = svgRect.bottom + window.scrollY - window.innerHeight / 2;
-            const currentScroll = window.scrollY;
+            // Получаем координаты точки на SVG-кривой
+            const pathLength = wavePath.getTotalLength();
+            const point = wavePath.getPointAtLength(progress * pathLength);
 
-            let percentage = (currentScroll - scrollStart) / (scrollEnd - scrollStart);
-            percentage = Math.max(0, Math.min(1, percentage)); // Ограничиваем от 0 до 1
-
-            // Определяем точку на SVG-пути
-            const point = path.getPointAtLength(percentage * pathLength);
-
-            // Переводим координаты SVG в локальные координаты контейнера
-            const heartX = point.x + (svgRect.left - containerRect.left);
-            const heartY = point.y + (svgRect.top - containerRect.top);
-
-            heart.style.left = ${heartX}px;
-            heart.style.top = ${heartY}px;
+            // Смещаем сердце внутрь SVG контейнера
+            heart.style.left = `${point.x + 20}px`; // 20px — это отступ .timeline-svg в CSS
+            heart.style.top = `${point.y}px`;
         }
 
-        // Отслеживание прокрутки для плавного появления блоков и движения сердца
-        window.addEventListener('scroll', () => {
-            moveHeartAlongWave();
+        window.addEventListener('scroll', moveHeartAlongWave);
+        window.addEventListener('resize', moveHeartAlongWave);
 
-            // Эффект плавного появления секций (Fade-in)
-            const sections = document.querySelectorAll('.fade-in-section');
-            sections.forEach(sec => {
-                const rect = sec.getBoundingClientRect();
-                if (rect.top <= window.innerHeight * 0.85) {
-                    sec.classList.add('is-visible');
-                }
-            });
-        });
+        // --- ТАЙМЕР ОБРАТНОГО ОТСЧЕТА ---
+        const targetDate = new Date('August 6, 2026 16:00:00').getTime();
 
-            // --- ОТПРАВКА В TELEGRAM ---
-
-        const TELEGRAM_BOT_TOKEN = '8556775064:AAEzpPRZOiWtKlgTauNIEkYQ6E9vYDFKv6Q'; 
-
-        const TELEGRAM_CHAT_ID = '1391803164';
-
-
-
-        document.getElementById('rsvp-form').addEventListener('submit', function(e) {
-
-            e.preventDefault();
-
-
-
-            const name = document.getElementById('guest-name').value;
-
-            const attendance = document.querySelector('input[name="attendance"]:checked').value;
-
-            const musicInput = document.getElementById('guest-music').value || 'Не указано';
-
-
-
-            // Изменено на HTML разметку для стабильности при вводе спецсимволов гостями
-
-            let message = 🔔 <b>Новый ответ на приглашение!</b>\n\n;
-
-            message += 👤 <b>Имя:</b> ${name}\n;
-
-            message += 📅 <b>Присутствие:</b> ${attendance}\n;
-
-            message += 🎵 <b>Трек на танцпол:</b> ${musicInput};
-
-
-
-            const url = https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage;
-
-
-
-            fetch(url, {
-
-                method: 'POST',
-
-                headers: { 'Content-Type': 'application/json' },
-
-                body: JSON.stringify({
-
-                    chat_id: TELEGRAM_CHAT_ID,
-
-                    text: message,
-
-                    parse_mode: 'HTML'
-
-                })
-
-            })
-
-            .then(response => {
-
-                if(response.ok) {
-
-                    alert('Спасибо! Ваш ответ успешно отправлен.');
-
-                    document.getElementById('rsvp-form').reset();
-
-                } else {
-
-                    alert('Что-то пошло не так. Попробуйте еще раз.');
-
-                }
-
-            })
-
-            .catch(error => {
-
-                console.error('Ошибка:', error);
-
-                alert('Ошибка соединения при отправке.');
-
-            });
-
-        });
-
-    </script>
-
-</body>
-
-
-
-<html lang="ru">
-
-<head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Анимированный Конверт</title>
-
-    <style>
-
-        /* Общие настройки для демонстрации */
-
-        * {
-
-            box-sizing: border-box;
-
-            margin: 0;
-
-            padding: 0;
-
-        }
-
-        body {
-
-            font-family: 'Georgia', serif;
-
-            background-color: #f4f6f9;
-
-        }
-
-
-        // Таймер обратного отсчета до 6 августа 2026 года
-        function updateCountdown() {
-            const weddingDate = new Date('August 6, 2026 16:00:00').getTime();
+        function updateTimer() {
             const now = new Date().getTime();
-            const diff = weddingDate - now;
+            const difference = targetDate - now;
 
-            if (diff <= 0) {
-                document.getElementById('countdown-timer').innerHTML = "<h3>Этот счастливый день настал!</h3>";
+            if (difference < 0) {
+                document.getElementById('countdown-timer').innerHTML = "<h3>Горько! Ура! 🥂</h3>";
                 return;
             }
 
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
 
             document.getElementById('days').innerText = days < 10 ? '0' + days : days;
             document.getElementById('hours').innerText = hours < 10 ? '0' + hours : hours;
             document.getElementById('minutes').innerText = minutes < 10 ? '0' + minutes : minutes;
             document.getElementById('seconds').innerText = seconds < 10 ? '0' + seconds : seconds;
         }
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
+        setInterval(updateTimer, 1000);
+        updateTimer();
 
+        // --- ПЛАВНОЕ ПОЯВЛЕНИЕ БЛОКОВ ПРИ СКРОЛЛЕ ---
+        const fadeSections = document.querySelectorAll('.fade-in-section');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        fadeSections.forEach(section => observer.observe(section));
+
+        // --- ОБРАБОТКА ФОРМЫ ОПРОСА ---
+        document.getElementById('rsvp-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Спасибо за Ваш ответ! Мы очень ценим это. ✨');
+        });
     </script>
 </body>
 </html>
