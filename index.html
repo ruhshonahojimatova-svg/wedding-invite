@@ -6,7 +6,7 @@
     <title>Приглашение на свадьбу Мухаммадазиза и Рухшоны</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Montserrat:wght@300;400;600&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -364,39 +364,85 @@
             z-index: 2;
         }
 
+        /* --- НОВЫЙ ИНТЕРЕСНЫЙ МУЛЬТЯШНЫЙ КАЛЕНДАРЬ --- */
         .calendar-container {
             margin-top: 30px;
-            padding: 0 20px;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 24px;
+            box-shadow: 0 10px 25px rgba(125, 107, 88, 0.08);
+            max-width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+            border: 2px dashed rgba(125, 107, 88, 0.2);
         }
+        
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            gap: 10px 5px;
-            font-size: 0.85rem;
-            margin-top: 15px;
+            gap: 12px 6px;
+            font-family: 'Nunito', sans-serif; /* Более мягкий "детский/мультяшный" шрифт */
+            font-size: 1rem;
+            margin-top: 20px;
         }
+        
         .calendar-day-name {
-            font-weight: 600;
-            color: #888;
+            font-weight: 700;
+            color: var(--accent-color);
+            opacity: 0.6;
             font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
         }
+        
         .calendar-day {
-            padding: 5px 0;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             position: relative;
+            color: #444;
+            font-weight: 700;
+            border-radius: 50%;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: default;
         }
-        .calendar-day.wedding-date {
-            font-weight: bold;
+
+        .calendar-day:not(.wedding-date):hover {
+            transform: scale(1.15) rotate(4deg);
             color: var(--accent-color);
         }
-        .calendar-day.wedding-date::after {
-            content: '♥';
+        
+        /* Стилизация дня свадьбы с красивым контурным сердцем */
+        .calendar-day.wedding-date {
+            color: var(--heart-color);
+            font-weight: 900;
+            font-size: 1.1rem;
+            animation: cartoonPulse 2s infinite ease-in-out;
+            z-index: 5;
+        }
+        
+        /* Рисуем аккуратное полое сердечко вокруг цифры */
+        .calendar-day.wedding-date::before {
+            content: '♡';
             position: absolute;
-            font-size: 2.2rem;
-            color: rgba(125, 107, 88, 0.15);
+            font-size: 2.8rem;
+            color: var(--heart-color);
+            font-weight: 300;
             left: 50%;
-            top: 45%;
+            top: 48%;
             transform: translate(-50%, -50%);
-            z-index: 1;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes cartoonPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.12) rotate(-3deg); }
+            100% { transform: scale(1); }
         }
 
         .intro-section p {
@@ -497,7 +543,7 @@
             display: inline-block;
             margin-right: 5px;
         }
-        .timeline-desc {
+        .timeline-item .timeline-desc {
             font-size: 0.95rem;
             color: #444;
         }
@@ -654,10 +700,10 @@
             </div>
 
             <div class="calendar-container">
-                <h3 class="script-title">Август 2026</h3>
+                <h3 class="script-title" style="font-size: 2.8rem; margin-bottom: 5px;">Август 2026</h3>
                 <div class="calendar-grid">
                     <div class="calendar-day-name">ПН</div><div class="calendar-day-name">ВТ</div><div class="calendar-day-name">СР</div><div class="calendar-day-name">ЧТ</div><div class="calendar-day-name">ПТ</div><div class="calendar-day-name">СБ</div><div class="calendar-day-name">ВС</div>
-                    <div class="calendar-day" style="color:#aaa;">27</div><div class="calendar-day" style="color:#aaa;">28</div><div class="calendar-day" style="color:#aaa;">29</div><div class="calendar-day" style="color:#aaa;">30</div><div class="calendar-day" style="color:#aaa;">31</div>
+                    <div class="calendar-day" style="color:#ccc; font-weight:400;">27</div><div class="calendar-day" style="color:#ccc; font-weight:400;">28</div><div class="calendar-day" style="color:#ccc; font-weight:400;">29</div><div class="calendar-day" style="color:#ccc; font-weight:400;">30</div><div class="calendar-day" style="color:#ccc; font-weight:400;">31</div>
                     <div class="calendar-day">01</div><div class="calendar-day">02</div>
                     <div class="calendar-day">03</div><div class="calendar-day">04</div><div class="calendar-day">05</div>
                     <div class="calendar-day wedding-date">06</div><div class="calendar-day">07</div><div class="calendar-day">08</div><div class="calendar-day">09</div>
@@ -905,31 +951,29 @@
             }
         }, 1000);
 
-        // --- ДВИЖЕНИЕ СЕРДЦА ПО ЛИНИИ ---
-        function moveHeartAlongWave() {
-            const path = document.getElementById('wave-path');
-            const heart = document.getElementById('moving-heart');
-            const timeline = document.getElementById('wedding-timeline');
-            
-            if (!path || !heart || !timeline) return;
 
-            const pathLength = path.getTotalLength();
-            const timelineRect = timeline.getBoundingClientRect();
+        // --- ДВИЖЕНИЕ СЕРДЦА ПО ЛИНИИ ТАЙМЛАЙНА ---
+        const heart = document.getElementById('moving-heart');
+        const path = document.getElementById('wave-path');
+        const timelineContainer = document.getElementById('wedding-timeline');
+
+        function moveHeartAlongWave() {
+            if (!heart || !path || !timelineContainer) return;
+            
+            const rect = timelineContainer.getBoundingClientRect();
             const windowHeight = window.innerHeight;
 
-            // Вычисляем процент прокрутки секции таймлайна на экране
-            const visibleTop = timelineRect.top;
-            const timelineHeight = timelineRect.height;
+            // Вычисляем, какая часть секции проскроллена
+            let progress = (windowHeight / 2 - rect.top) / rect.height;
+            if (progress < 0) progress = 0;
+            if (progress > 1) progress = 1;
 
-            let progress = (windowHeight / 2 - visibleTop) / timelineHeight;
-            progress = Math.max(0, Math.min(1, progress));
-
-            // Получаем координаты точки на SVG-пути
+            const pathLength = path.getTotalLength();
             const point = path.getPointAtLength(progress * pathLength);
 
-            // Двигаем сердечко
+            // Обновляем позицию сердца относительно SVG
+            heart.style.left = point.x + 'px';
             heart.style.top = point.y + 'px';
-            heart.style.left = (point.x + 20) + 'px'; // Корректируем по отступу SVG
         }
 
         window.addEventListener('scroll', moveHeartAlongWave);
