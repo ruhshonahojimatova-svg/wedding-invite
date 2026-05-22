@@ -13,6 +13,7 @@
             --bg-color: #f7f5f2;
             --text-color: #2c2c2c;
             --accent-color: #7d6b58;
+            --heart-color: #b85d5d; /* Красивый благородный оттенок для движущегося сердца */
             --polaroid-shadow: rgba(0, 0, 0, 0.15);
         }
 
@@ -42,7 +43,7 @@
             left: 50%;
             transform: translateX(-50%);
             width: 100%;
-            max-width: 550px; /* Выравнивание под ширину основного контейнера */
+            max-width: 550px;
             height: 100vh;
             background: linear-gradient(135deg, #e0e5ec, #f0f4f8);
             display: flex;
@@ -56,7 +57,6 @@
             box-shadow: 0 0 50px rgba(0, 0, 0, 0.12);
         }
 
-        /* Уводим конверт наверх после клика */
         #envelope-screen.opened {
             transform: translate(-50%, -100vh);
             pointer-events: none;
@@ -71,7 +71,6 @@
             font-weight: 600;
         }
 
-        /* Основа конверта */
         .envelope-wrapper {
             position: relative;
             width: 300px;
@@ -86,7 +85,6 @@
             perspective: 1000px;
         }
 
-        /* Нижний шов конверта и боковые складки */
         .envelope-wrapper::after {
             content: '';
             position: absolute;
@@ -99,7 +97,6 @@
             border-radius: 4px;
         }
 
-        /* Верхний клапан конверта (треугольник) */
         .envelope-wrapper::before {
             content: '';
             position: absolute;
@@ -109,19 +106,17 @@
             height: 0;
             border-left: 150px solid transparent;
             border-right: 150px solid transparent;
-            border-top: 110px solid #c5b49f; /* Красивый оттенок клапана */
+            border-top: 110px solid #c5b49f;
             transform-origin: top;
             transition: transform 0.5s ease;
             z-index: 3;
         }
 
-        /* Анимация раскрытия клапана вверх при наведении */
         .envelope-wrapper:hover::before {
             transform: rotateX(160deg) translateY(-10px);
-            z-index: 1; /* Опускаем за печать при раскрытии */
+            z-index: 1;
         }
 
-        /* Сургучная печать по центру */
         .wax-seal {
             position: absolute;
             width: 65px;
@@ -143,7 +138,6 @@
             transform: scale(1.1);
         }
 
-        /* Подсказка под конвертом */
         .envelope-hint {
             margin-top: 40px;
             font-size: 0.85rem;
@@ -175,16 +169,14 @@
             display: block;
         }
 
-        /* --- Стили для декоративного изображения колец --- */
         .mid-section-divider {
             display: block;
             margin: 20px auto 40px auto; 
-            max-width: 160px;         
-            height: auto;             
-            opacity: 0.85;             
+            max-width: 160px;          
+            height: auto;              
+            opacity: 0.85;              
         }
 
-        /* --- Элегантная рамка для адреса ресторана --- */
         .restaurant-card {
             border: 1px solid var(--accent-color);
             outline: 3px solid var(--accent-color);
@@ -218,7 +210,6 @@
             margin-bottom: 20px;
         }
 
-        /* Контейнер для Яндекс Карты внутри рамки */
         .map-wrapper {
             width: 100%;
             height: 250px;
@@ -234,7 +225,6 @@
             border: none;
         }
 
-        /* --- КНОПКА МУЗЫКИ --- */
         .music-control {
             position: fixed;
             top: 20px;
@@ -445,41 +435,59 @@
             color: #777;
         }
         
-        /* --- ОБНОВЛЕННЫЙ ТАЙМЛАЙН С ДВИЖУЩИМСЯ СЕРДЕЧКОМ --- */
-        .timeline {
-            margin-top: 30px;
-            text-align: left;
-            padding-left: 25px;
-            border-left: 2px dashed var(--accent-color);
-            margin-left: 15px;
-            position: relative; /* Важно для позиционирования сердечка */
+        /* --- ОБНОВЛЕННЫЙ ТАЙМЛАЙН С ВОЛНИСТОЙ ЛИНИЕЙ И БОЛЬШИМ СЕРДЦЕМ --- */
+        .timeline-container {
+            position: relative;
+            margin-top: 35px;
+            padding: 10px 0;
         }
-        
-        /* Плавающее сердечко */
+
+        /* SVG контейнер для гибкой волнистой линии */
+        .timeline-svg {
+            position: absolute;
+            top: 0;
+            left: 20px;
+            width: 35px;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .timeline-svg path {
+            fill: none;
+            stroke: var(--accent-color);
+            stroke-width: 2;
+            stroke-linecap: round;
+        }
+
+        /* УВЕЛИЧЕННОЕ скользящее сердечко */
         .timeline-heart {
             position: absolute;
-            left: -10px; /* Центрируем по линии границы (ширина линии + половинка сердечка) */
+            left: 20px;
             top: 0;
-            width: 20px;
-            height: 20px;
-            color: var(--accent-color);
-            font-size: 1.3rem;
-            line-height: 20px;
+            width: 40px;  
+            height: 40px; 
+            color: var(--heart-color);
+            font-size: 2.3rem; /* Крупный размер самого эмодзи сердца */
+            line-height: 40px;
             text-align: center;
             z-index: 10;
-            background-color: #ffffff; /* Перекрывает линию под собой */
-            transition: top 0.1s ease-out; /* Плавность хода */
+            background-color: transparent;
+            transform: translate(-50%, -50%); /* Центрирование четко по оси */
+            pointer-events: none;
             user-select: none;
+            filter: drop-shadow(0 2px 5px rgba(0,0,0,0.15));
+        }
+
+        .timeline-content {
+            text-align: left;
+            padding-left: 65px; /* Отступ текста от волнистой линии */
+            position: relative;
+            z-index: 2;
         }
 
         .timeline-item {
-            margin-bottom: 35px;
+            margin-bottom: 40px;
             position: relative;
-        }
-        
-        /* Старые точки убираем, так как теперь есть общее сердечко */
-        .timeline-item::before {
-            display: none;
         }
         
         .timeline-time {
@@ -535,12 +543,10 @@
             letter-spacing: 1px;
         }
 
-        /* --- СТИЛИ ДЛЯ СЕКЦИИ ДРЕСС-КОДА С ФОНОМ --- */
         .dress-code-section {
             margin: 20px auto;
             max-width: 90%;
             border-radius: 12px;
-            /* Накладываем легкий белый градиент поверх картинки, чтобы текст оставался легко читаемым */
             background: linear-gradient(rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.85)), url('dress-kod.webp');
             background-size: cover;
             background-position: center;
@@ -551,7 +557,7 @@
 
         .dress-code-text {
             font-size: 0.9rem;
-            color: #333; /* Сделали цвет чуть темнее для лучшей контрастности на фоне */
+            color: #333;
             font-weight: 500;
         }
 
@@ -673,24 +679,34 @@
 
                 <h2 class="script-title" style="margin-top: 40px;">Программа дня</h2>
                 
-                <div class="timeline" id="wedding-timeline">
+                <div class="timeline-container" id="wedding-timeline">
+                    <svg class="timeline-svg" preserveAspectRatio="none" viewBox="0 0 40 600" id="svg-line">
+                        <path d="M 20 0 
+                                 C 40 60, 0 120, 20 180 
+                                 C 40 240, 0 300, 20 360 
+                                 C 40 420, 0 480, 20 540 
+                                 C 40 570, 20 590, 20 600" id="wave-path"/>
+                    </svg>
+
                     <div class="timeline-heart" id="moving-heart">♥</div>
                     
-                    <div class="timeline-item">
-                        <span class="timeline-time">16:00</span>
-                        <span class="timeline-desc">— <strong>Свадебная фотосессия.</strong> Время для создания первых незабываемых кадров нашей семейной истории.</span>
-                    </div>
-                    <div class="timeline-item">
-                        <span class="timeline-time">17:00</span>
-                        <span class="timeline-desc">— <strong>Встреча дорогих гостей.</strong> Welcome-зона: обнимаемся, знакомимся и настраиваемся на праздничную атмосферу.</span>
-                    </div>
-                    <div class="timeline-item">
-                        <span class="timeline-time">17:30</span>
-                        <span class="timeline-desc">— <strong>Выездная регистрация.</strong> Самый трогательный момент нашего дня. Время для искренних клятв и главных слов.</span>
-                    </div>
-                    <div class="timeline-item">
-                        <span class="timeline-time">18:00</span>
-                        <span class="timeline-desc">— <strong>Торжественный банкет.</strong> Зажигаем! Время теплых поздравлений, веселья, сюрпризов и танцев до упаду.</span>
+                    <div class="timeline-content">
+                        <div class="timeline-item">
+                            <span class="timeline-time">16:00</span>
+                            <span class="timeline-desc">— <strong>Свадебная фотосессия.</strong> Время для создания первых незабываемых кадров нашей семейной истории.</span>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="timeline-time">17:00</span>
+                            <span class="timeline-desc">— <strong>Встреча дорогих гостей.</strong> Welcome-зона: обнимаемся, знакомимся и настраиваемся на праздничную атмосферу.</span>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="timeline-time">17:30</span>
+                            <span class="timeline-desc">— <strong>Выездная регистрация.</strong> Самый трогательный момент нашего дня. Время для искренних клятв и главных слов.</span>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="timeline-time">18:00</span>
+                            <span class="timeline-desc">— <strong>Торжественный банкет.</strong> Зажигаем! Время теплых поздравлений, веселья, сюрпризов и танцев до упаду.</span>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -699,7 +715,6 @@
         <div class="fade-in-section">
             <hr>
             <section class="location-section">
-                
                 <div class="restaurant-card">
                     <p class="city-text">г. Ош</p>
                     <h3 class="restaurant-name">Ресторан «НООРУЗ»</h3>
@@ -791,12 +806,11 @@
     </div>
 
     <script>
-        // --- ОБНОВЛЕННЫЙ СЦЕНАРИЙ ДЛЯ КЛИКА ПО КОНВЕРТУ ---
+        // --- СЦЕНАРИЙ ДЛЯ КЛИКА ПО КОНВЕРТУ ---
         const envelopeScreen = document.getElementById('envelope-screen');
         const music = document.getElementById('bg-music');
         const musicBtn = document.getElementById('music-btn');
 
-        // Функция открытия конверта
         function openEnvelope() {
             document.body.classList.add('envelope-opened');
             envelopeScreen.classList.add('opened');
@@ -806,11 +820,14 @@
                 musicBtn.classList.add('playing');
                 musicBtn.innerText = '🔊';
             }).catch(err => console.log("Браузер заблокировал автовоспроизведение музыки:", err));
+            
+            // Первичный расчет позиции сердца сразу после открытия конверта
+            setTimeout(moveHeartAlongWave, 300);
         }
 
         // Переключатель музыки на сайте
         musicBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // Исключаем срабатывание клика по экрану
+            e.stopPropagation(); 
             if (music.paused) {
                 music.play().then(() => {
                     musicBtn.classList.add('playing');
@@ -818,7 +835,7 @@
                 });
             } else {
                 music.pause();
-                musicBtn.classList.remove('playing'); // Исправлено: добавлено classList
+                musicBtn.classList.remove('playing'); 
                 musicBtn.innerText = '🔈';
             }
         });
@@ -874,28 +891,47 @@
         }, 1000);
 
 
-        // --- АНИМАЦИЯ ДВИЖЕНИЯ СЕРДЕЧКА ПО ТАЙМЛАЙНУ ---
-        window.addEventListener('scroll', () => {
+        // --- УМНАЯ АНИМАЦИЯ ДВИЖЕНИЯ СЕРДЕЧКА ПО SVG ПУТИ ---
+        window.addEventListener('scroll', moveHeartAlongWave);
+        window.addEventListener('resize', moveHeartAlongWave);
+
+        function moveHeartAlongWave() {
             const timeline = document.getElementById('wedding-timeline');
             const heart = document.getElementById('moving-heart');
+            const path = document.getElementById('wave-path');
+            const svg = document.getElementById('svg-line');
+
+            if (!timeline || !heart || !path || !svg) return;
+
+            const rect = timeline.getBoundingClientRect();
+            const viewHeight = window.innerHeight;
+
+            // Сердечко начинает движение, когда верх блока доходит до середины экрана
+            // И заканчивает, когда низ блока поднимается до середины экрана
+            const startAnchor = viewHeight * 0.6;
+            const endAnchor = viewHeight * 0.4;
+
+            let progress = (startAnchor - rect.top) / (rect.height - (startAnchor - endAnchor));
             
-            if (!timeline || !heart) return;
+            // Загоняем прогресс в жесткие рамки [0, 1]
+            if (progress < 0) progress = 0;
+            if (progress > 1) progress = 1;
 
-            const timelineRect = timeline.getBoundingClientRect();
-            const windowHeight = window.innerHeight;
-            const triggerPoint = windowHeight / 2;
+            // Считываем точную длину кривой и координаты точки на ней в текущий момент
+            const pathLength = path.getTotalLength();
+            const point = path.getPointAtLength(progress * pathLength);
 
-            if (timelineRect.top < triggerPoint && timelineRect.bottom > triggerPoint - 100) {
-                const totalHeight = timelineRect.height;
-                const scrolledInside = triggerPoint - timelineRect.top;
-                let percent = (scrolledInside / totalHeight) * 100;
-                
-                if (percent < 0) percent = 0;
-                if (percent > 100) percent = 100;
-                
-                heart.style.top = `calc(${percent}% - 10px)`;
-            }
-        });
+            const svgRect = svg.getBoundingClientRect();
+            const containerRect = timeline.getBoundingClientRect();
+
+            // Пересчитываем относительные координаты SVG в пиксели родительского контейнера
+            const targetX = svgRect.left - containerRect.left + (point.x * (svgRect.width / 40));
+            const targetY = svgRect.top - containerRect.top + (point.y * (svgRect.height / 600));
+
+            // Перемещаем сердце
+            heart.style.left = `${targetX}px`;
+            heart.style.top = `${targetY}px`;
+        }
     </script>
 </body>
 </html>
