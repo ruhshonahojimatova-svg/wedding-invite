@@ -40,6 +40,19 @@
             overflow-y: hidden; /* Блокируем скролл до открытия конверта */
         }
 
+        /* Вставляем ваш фон сюда */
+            background-image: url('background.jpg'); /* Убедитесь, что имя файла верное */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+        
+
         body.envelope-opened {
             overflow-y: auto;
         }
